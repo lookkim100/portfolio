@@ -205,7 +205,6 @@ body{
 .flow-fullscreen-viewport:active{cursor:grabbing}
 .flow-fullscreen-inner{transform-origin:0 0;transition:none}
 .flow-fullscreen-inner svg{display:block;max-width:none}
-.mermaid-zoom-container .zoom-hint{position:absolute;top:12px;right:12px;padding:5px 12px;border-radius:var(--radius-sm);background:var(--sidebar-bg);color:var(--text-muted);font-size:12px;pointer-events:none;z-index:2;font-family:var(--font-mono)}
 .mermaid-viewport{overflow:hidden;cursor:grab;padding:24px;height:480px}
 .mermaid-viewport:active{cursor:grabbing}
 .mermaid-viewport .mermaid-inner{transform-origin:0 0;transition:transform .12s ease-out}
@@ -666,11 +665,9 @@ tr:hover td{background:var(--overlay-light);transition:background .25s ease}
           .mermaid-viewport:active{cursor:grabbing}
           .mermaid-viewport .mermaid-inner{transform-origin:0 0;transition:none}
           .mermaid-viewport .mermaid-inner svg{display:block;max-width:none}
-          .mermaid-zoom-container .zoom-hint{position:absolute;top:12px;right:12px;padding:5px 12px;border-radius:6px;background:#34424B;color:#A3B5C0;font-size:11px;pointer-events:none;z-index:2;font-family:JetBrains Mono,ui-monospace,monospace}
         </style>
         <div class="mermaid-zoom-container">
           <button class="flow-expand-btn" id="flow-expand-btn" title="全屏查看">&#x26F6;</button>
-          <div class="zoom-hint">滚轮缩放 · 拖动平移</div>
           <div class="mermaid-viewport" id="flow-viewport">
             <div class="mermaid-inner" id="flow-inner">
               <svg viewBox="0 0 1100 2120" width="1100" height="2120" xmlns="http://www.w3.org/2000/svg">
