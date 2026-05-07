@@ -192,6 +192,19 @@ body{
 
 /* === ZOOMABLE MERMAID === */
 .mermaid-zoom-container{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;position:relative}
+.flow-expand-btn{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:8px;border:1px solid rgba(var(--accent-rgb),.25);background:var(--sidebar-bg);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:all .25s var(--ease-out);font-size:16px}
+.flow-expand-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:scale(1.08)}
+.flow-fullscreen{display:none;position:fixed;inset:0;z-index:999;background:rgba(20,26,30,.92);backdrop-filter:blur(20px) saturate(1.2)}
+.flow-fullscreen.active{display:flex;flex-direction:column}
+.flow-fullscreen-bar{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;flex-shrink:0}
+.flow-fullscreen-bar h3{margin:0;font-size:15px;font-family:var(--font-ui);color:var(--text)}
+.flow-fullscreen-close{width:40px;height:40px;border-radius:10px;border:1px solid rgba(var(--accent-rgb),.25);background:var(--sidebar-bg);color:var(--text-muted);cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;transition:all .25s var(--ease-out)}
+.flow-fullscreen-close:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
+.flow-fullscreen-hint{font-size:12px;color:var(--text-muted);font-family:var(--font-mono)}
+.flow-fullscreen-viewport{flex:1;overflow:hidden;cursor:grab;position:relative}
+.flow-fullscreen-viewport:active{cursor:grabbing}
+.flow-fullscreen-inner{transform-origin:0 0;transition:none}
+.flow-fullscreen-inner svg{display:block;max-width:none}
 .mermaid-zoom-container .zoom-hint{position:absolute;top:12px;right:12px;padding:5px 12px;border-radius:var(--radius-sm);background:var(--sidebar-bg);color:var(--text-muted);font-size:12px;pointer-events:none;z-index:2;font-family:var(--font-mono)}
 .mermaid-viewport{overflow:hidden;cursor:grab;padding:24px;height:480px}
 .mermaid-viewport:active{cursor:grabbing}
@@ -656,6 +669,7 @@ tr:hover td{background:var(--overlay-light);transition:background .25s ease}
           .mermaid-zoom-container .zoom-hint{position:absolute;top:12px;right:12px;padding:5px 12px;border-radius:6px;background:#34424B;color:#A3B5C0;font-size:11px;pointer-events:none;z-index:2;font-family:JetBrains Mono,ui-monospace,monospace}
         </style>
         <div class="mermaid-zoom-container">
+          <button class="flow-expand-btn" id="flow-expand-btn" title="全屏查看">&#x26F6;</button>
           <div class="zoom-hint">滚轮缩放 · 拖动平移</div>
           <div class="mermaid-viewport" id="flow-viewport">
             <div class="mermaid-inner" id="flow-inner">
@@ -1331,6 +1345,66 @@ new Chart(document.getElementById('chart-donut'),{
     plugins:{title:{display:true,text:'维度权重分布',color:'#E1EAF0',font:{size:13,weight:'bold'}},legend:{position:'bottom',labels:{color:'rgba(255,255,255,.45)',font:{size:10.5},padding:14}}}
   }
 });
+</script>
+<!-- Flow Chart Fullscreen Overlay -->
+<div class="flow-fullscreen" id="flow-fullscreen">
+  <div class="flow-fullscreen-bar">
+    <h3>产品开发总流程图</h3>
+    <span class="flow-fullscreen-hint">滚轮缩放 · 拖动平移 · ESC 退出</span>
+    <button class="flow-fullscreen-close" id="flow-fullscreen-close">&times;</button>
+  </div>
+  <div class="flow-fullscreen-viewport" id="fs-viewport">
+    <div class="flow-fullscreen-inner" id="fs-inner"></div>
+  </div>
+</div>
+
+<script>
+// === Flow Chart Fullscreen ===
+(function(){
+  const btn=document.getElementById('flow-expand-btn');
+  const overlay=document.getElementById('flow-fullscreen');
+  const closeBtn=document.getElementById('flow-fullscreen-close');
+  const fsVp=document.getElementById('fs-viewport');
+  const fsInner=document.getElementById('fs-inner');
+  const origSvg=document.querySelector('#flow-inner svg');
+  if(!btn||!overlay||!origSvg) return;
+
+  function openFs(){
+    // Clone SVG into fullscreen
+    fsInner.innerHTML='';
+    fsInner.appendChild(origSvg.cloneNode(true));
+    overlay.classList.add('active');
+    document.body.style.overflow='hidden';
+    // Init zoom/pan
+    let sc=1,px=0,py=0,drag=false,sx=0,sy=0;
+    function apply(){fsInner.style.transform=`translate(${px}px,${py}px) scale(${sc})`}
+    // Center the SVG initially
+    const vpRect=fsVp.getBoundingClientRect();
+    const svgW=1100,svgH=2120;
+    sc=Math.min(vpRect.width/svgW,vpRect.height/svgH)*0.95;
+    px=(vpRect.width-svgW*sc)/2;
+    py=0;
+    apply();
+    fsVp.onwheel=function(e){e.preventDefault();const d=e.deltaY>0?-.08:.08;const ns=Math.min(Math.max(sc+d,.3),4);const r=fsVp.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;px=mx-(mx-px)*(ns/sc);py=my-(my-py)*(ns/sc);sc=ns;apply()};
+    fsVp.onmousedown=function(e){if(e.button)return;drag=true;sx=e.clientX-px;sy=e.clientY-py;fsVp.style.cursor='grabbing'};
+    fsVp.onmousemove=function(e){if(!drag)return;px=e.clientX-sx;py=e.clientY-sy;apply()};
+    fsVp.onmouseup=function(){drag=false;fsVp.style.cursor='grab'};
+    fsVp.ontouchstart=function(e){if(e.touches.length===1){drag=true;sx=e.touches[0].clientX-px;sy=e.touches[0].clientY-py}};
+    fsVp.ontouchmove=function(e){if(e.touches.length===1&&drag){e.preventDefault();px=e.touches[0].clientX-sx;py=e.touches[0].clientY-sy;apply()}};
+    fsVp.ontouchend=function(){drag=false};
+  }
+
+  function closeFs(){
+    overlay.classList.remove('active');
+    document.body.style.overflow='';
+    fsInner.innerHTML='';
+  }
+
+  btn.addEventListener('click',openFs);
+  closeBtn.addEventListener('click',closeFs);
+  overlay.addEventListener('click',function(e){if(e.target===overlay)closeFs()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&overlay.classList.contains('active'))closeFs()});
+})();
 </script>
 </body>
 </html>
