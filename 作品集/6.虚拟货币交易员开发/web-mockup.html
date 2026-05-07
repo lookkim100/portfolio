@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Trader — 运营后台</title>
+<style>
+:root{color-scheme:light;font-family:"Segoe UI","PingFang SC",sans-serif;background:#f4f1ea;color:#17212b}
+*{box-sizing:border-box;margin:0}
+body{min-height:100vh;background:radial-gradient(circle at top left,rgba(216,188,145,.35),transparent 30%),linear-gradient(180deg,#f5efe2 0%,#f3f1ec 40%,#ebe7df 100%)}
+button,input,select{font:inherit}
+button{border:0;border-radius:999px;padding:.75rem 1rem;background:#1d6b52;color:#fff;cursor:pointer;font-size:.9rem}
+button.button-secondary{background:#e6ded0;color:#17212b}
+input,select{width:100%;border:1px solid #d6c9b5;border-radius:14px;padding:.8rem .9rem;background:rgba(255,255,255,.7);font-size:.9rem}
+.app-shell{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+.sidebar{padding:2rem;background:linear-gradient(180deg,#13342b 0%,#204c3f 100%);color:#eff4ef;display:flex;flex-direction:column;gap:1.5rem}
+.brand-eyebrow,.hero-kicker{text-transform:uppercase;letter-spacing:.2em;font-size:.75rem;opacity:.7}
+.sidebar h1{margin:.5rem 0 0;font-size:2rem}
+.sidebar-copy{margin:0;line-height:1.6;color:rgba(239,244,239,.8)}
+.runtime-chip{display:inline-flex;width:fit-content;padding:.5rem .9rem;border-radius:999px;background:rgba(255,255,255,.14)}
+.runtime-chip-text{margin-left:.3rem;font-weight:600;color:#7dffb0}
+.sidebar-actions{display:grid;gap:.75rem}
+.sidebar-actions button{font-size:.85rem}
+.content{padding:2rem;display:flex;flex-direction:column;gap:1.5rem}
+.hero{display:flex;justify-content:space-between;gap:1rem;align-items:end}
+.hero h2{margin:.25rem 0 0;font-size:1.6rem}
+.hero-meta{display:grid;gap:.3rem;color:#475668;font-size:.85rem}
+.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+.stat-card{background:rgba(255,255,255,.78);border:1px solid rgba(205,194,174,.7);border-radius:22px;padding:1.25rem;box-shadow:0 18px 50px rgba(42,56,48,.08);backdrop-filter:blur(12px)}
+.stat-label{color:#6f604f;margin-bottom:.6rem;font-size:.85rem}
+.stat-head{display:flex;justify-content:space-between;align-items:center;gap:.8rem}
+.stat-value{font-size:1.8rem;font-weight:700}
+.stat-meta{margin-top:.55rem;color:#7c6e5b;font-size:.82rem;line-height:1.45}
+.compact-select{width:auto;min-width:110px;padding:.42rem .8rem;border-radius:999px;background:rgba(243,237,226,.96)}
+.panel-header{display:flex;justify-content:space-between;gap:1rem;align-items:center;margin-bottom:1rem}
+.panel-header h2{margin:0;font-size:1.05rem}
+.grid.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.section-card{background:rgba(255,255,255,.78);border:1px solid rgba(205,194,174,.7);border-radius:22px;padding:1.25rem;box-shadow:0 18px 50px rgba(42,56,48,.08);backdrop-filter:blur(12px)}
+.table-wrap{overflow-x:auto}
+.table-wrap-scrollable{overflow-y:auto;border-radius:16px}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:.75rem .5rem;border-bottom:1px solid #efe7db;vertical-align:top;font-size:.85rem}
+th{color:#7f705c;font-weight:600;white-space:nowrap}
+.stacked-text{max-width:320px;line-height:1.5;color:#344252;white-space:normal}
+.muted-text{color:#7c6e5b;font-size:.85rem}
+.empty{padding:1rem;border-radius:16px;background:rgba(255,255,255,.7);color:#7c6e5b;font-size:.85rem}
+.config-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.config-grid label{display:grid;gap:.45rem;color:#5a5147;font-size:.85rem}
+.signal-controls{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1rem}
+.inline-field{display:inline-flex;align-items:center;gap:.7rem;color:#5a5147;font-size:.85rem}
+.inline-field input{width:92px}
+.field-help{margin:.9rem 0 0;color:#7c6e5b;font-size:.85rem;line-height:1.5}
+.mini-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.8rem;margin-bottom:1rem}
+.mini-stat{padding:.9rem 1rem;border-radius:16px;background:rgba(243,237,226,.9);border:1px solid #e9decc;display:grid;gap:.35rem}
+.mini-stat span{font-size:.82rem;color:#6d614e}
+.mini-stat strong{font-size:1.2rem}
+.badge{display:inline-flex;align-items:center;border-radius:999px;padding:.32rem .72rem;font-size:.82rem;font-weight:600}
+.badge-neutral{background:#ece6da;color:#665846}
+.badge-info{background:#ddeff2;color:#23586a}
+.badge-success{background:#dff2e9;color:#1f6a4f}
+.badge-warning{background:#f7ead2;color:#8a5a12}
+.badge-danger{background:#f7d8d2;color:#9b3d2a}
+.chat{display:grid;gap:.75rem}
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:.5rem}
+.suggestion-chip{padding:.45rem .8rem;background:rgba(237,232,223,.95);color:#495565;border-radius:999px;font-size:.82rem}
+.chat-messages{max-height:420px;overflow-y:auto;display:grid;gap:.75rem}
+.chat-bubble{padding:1rem;border-radius:18px;font-size:.85rem;line-height:1.6}
+.chat-user{background:rgba(21,103,80,.1)}
+.chat-assistant{background:rgba(237,232,223,.8)}
+.chat-role{margin-bottom:.35rem;font-size:.75rem;color:#6b5f4f;text-transform:uppercase;letter-spacing:.08em}
+.chat-actions,.chat-form{display:flex;gap:.75rem}
+.chat-form input{flex:1}
+
+@media(max-width:1100px){
+  .app-shell{grid-template-columns:1fr}
+  .stats-grid,.grid.two-col,.config-grid,.mini-stats{grid-template-columns:1fr}
+  .signal-controls{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div>
+      <div class="brand-eyebrow">Binance Spot</div>
+      <h1>Agent Trader</h1>
+    </div>
+    <p class="sidebar-copy">这里是你的本地交易运营后台。查看行情扫描结果、GPT 审核、风控拦截、订单记录，以及通过聊天面板下达白名单指令。</p>
+    <div class="runtime-chip">测试网 / <span class="runtime-chip-text">运行中</span></div>
+    <div class="sidebar-actions">
+      <button>启动系统</button>
+      <button class="button-secondary">暂停交易</button>
+      <button class="button-secondary">同步账户</button>
+      <button class="button-secondary">执行一轮扫描</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="content">
+    <!-- Hero -->
+    <header class="hero">
+      <div>
+        <div class="hero-kicker">运营后台</div>
+        <h2>先看懂系统在想什么，再决定是否让它动钱</h2>
+      </div>
+      <div class="hero-meta">
+        <div>服务器时间：2026-05-07 00:30:15</div>
+        <div>GPT 状态：已配置</div>
+        <div>上次更新：00:30:15</div>
+        <div>自动刷新：15 秒</div>
+      </div>
+    </header>
+
+    <!-- Stats Grid -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-head">
+          <div class="stat-label">账户估值</div>
+          <select class="compact-select"><option>USDT</option><option>CNY</option></select>
+        </div>
+        <div class="stat-value">12,580.36 USDT</div>
+        <div class="stat-meta">按 USDT 计价，已含持仓折算</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">今日盈亏</div>
+        <div class="stat-value" style="color:#1f6a4f">+326.50 USDT</div>
+        <div class="stat-meta">显示单位跟随账户估值</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">连续亏损</div>
+        <div class="stat-value">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">账户同步</div>
+        <div class="stat-value" style="color:#1f6a4f">已同步</div>
+      </div>
+    </section>
+
+    <!-- Positions & Orders -->
+    <div class="grid two-col">
+      <div class="section-card">
+        <div class="panel-header"><h2>持仓概览</h2></div>
+        <table>
+          <tr><th>交易对</th><th>数量</th><th>开仓均价</th><th>当前价格</th><th>浮动盈亏</th><th>状态</th></tr>
+          <tr><td>BTC/USDT</td><td>0.0150</td><td>62,350.00</td><td>63,180.50</td><td style="color:#1f6a4f">+12.46</td><td><span class="badge badge-info">持仓中</span></td></tr>
+          <tr><td>ETH/USDT</td><td>0.8000</td><td>3,120.00</td><td>3,185.40</td><td style="color:#1f6a4f">+52.32</td><td><span class="badge badge-info">持仓中</span></td></tr>
+        </table>
+      </div>
+      <div class="section-card">
+        <div class="panel-header"><h2>订单记录</h2></div>
+        <table>
+          <tr><th>交易对</th><th>方向</th><th>数量</th><th>状态</th><th>交易所订单号</th><th>时间</th></tr>
+          <tr><td>BTC/USDT</td><td>买入</td><td>0.0150</td><td><span class="badge badge-success">已成交</span></td><td>284719362</td><td>2026-05-06 22:15</td></tr>
+          <tr><td>ETH/USDT</td><td>买入</td><td>0.8000</td><td><span class="badge badge-success">已成交</span></td><td>284718901</td><td>2026-05-06 21:42</td></tr>
+          <tr><td>SOL/USDT</td><td>买入</td><td>5.0000</td><td><span class="badge badge-warning">被阻止</span></td><td>--</td><td>2026-05-06 20:08</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Signals & GPT -->
+    <div class="grid two-col">
+      <div class="section-card">
+        <div class="panel-header"><h2>信号观察台</h2><span class="muted-text">规则策略的第一轮判断，不是最终下单指令。</span></div>
+        <div class="mini-stats">
+          <div class="mini-stat"><span>总扫描</span><strong>127</strong></div>
+          <div class="mini-stat"><span>进入审核</span><strong>18</strong></div>
+          <div class="mini-stat"><span>继续观察</span><strong>96</strong></div>
+          <div class="mini-stat"><span>被拦截</span><strong>13</strong></div>
+        </div>
+        <div class="signal-controls">
+          <label class="inline-field">最多显示 <input type="number" value="50"></label>
+          <span class="muted-text">表格区域固定高度，可直接用鼠标滚轮滚动查看历史记录。</span>
+        </div>
+        <div class="table-wrap-scrollable" style="max-height:320px">
+          <table>
+            <tr><th>交易对</th><th>初步判断</th><th>当前阶段</th><th>机会质量</th><th>参考价格</th><th>触发原因</th><th>下一步</th></tr>
+            <tr><td><strong>BTC/USDT</strong></td><td>发现机会</td><td><span class="badge badge-success">已执行</span></td><td>68%</td><td>62,350.00</td><td>大级别趋势向上、短线突破、成交量放大确认</td><td>已经进入订单与持仓流程</td></tr>
+            <tr><td><strong>ETH/USDT</strong></td><td>发现机会</td><td><span class="badge badge-success">已执行</span></td><td>65%</td><td>3,120.00</td><td>大级别趋势向上、短线突破、成交量放大确认</td><td>已经进入订单与持仓流程</td></tr>
+            <tr><td><strong>SOL/USDT</strong></td><td>发现机会</td><td><span class="badge badge-danger">已被拦截</span></td><td>62%</td><td>148.50</td><td>大级别趋势向上、短线突破</td><td>本轮不做，等待新的交易结构</td></tr>
+            <tr><td><strong>BNB/USDT</strong></td><td>继续观察</td><td><span class="badge badge-neutral">暂不交易</span></td><td>25%</td><td>612.80</td><td>当前还没有满足开仓条件</td><td>继续观察，等待下一轮扫描</td></tr>
+            <tr><td><strong>DOGE/USDT</strong></td><td>继续观察</td><td><span class="badge badge-neutral">暂不交易</span></td><td>25%</td><td>0.1623</td><td>当前还没有满足开仓条件</td><td>继续观察，等待下一轮扫描</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="panel-header"><h2>GPT 审核台</h2><span class="muted-text">只有"进入审核"的信号才会出现在这里。</span></div>
+        <table>
+          <tr><th>交易对</th><th>GPT 结论</th><th>市场环境</th><th>把握度</th><th>理由</th><th>耗时</th></tr>
+          <tr><td>BTC/USDT</td><td><span class="badge badge-success">放行</span></td><td>上升趋势</td><td>72%</td><td class="stacked-text">大级别趋势向上确认，短线突破前期高点，成交量配合良好</td><td>1,240 ms</td></tr>
+          <tr><td>ETH/USDT</td><td><span class="badge badge-success">放行</span></td><td>上升趋势</td><td>68%</td><td class="stacked-text">跟随BTC走势，独立突破信号较弱但整体环境偏多</td><td>980 ms</td></tr>
+          <tr><td>SOL/USDT</td><td><span class="badge badge-warning">缩小仓位</span></td><td>震荡</td><td>45%</td><td class="stacked-text">突破信号存在但成交量不足，建议减半仓位控制风险</td><td>1,150 ms</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Risk & Reports -->
+    <div class="grid two-col">
+      <div class="section-card">
+        <div class="panel-header"><h2>风控中心</h2></div>
+        <table>
+          <tr><th>类型</th><th>交易对</th><th>原因</th><th>级别</th><th>时间</th></tr>
+          <tr><td>trade_blocked</td><td>SOL/USDT</td><td class="stacked-text">gpt_reduce_size, binance_filters_failed</td><td><span class="badge badge-warning">警告</span></td><td>2026-05-06 20:08</td></tr>
+          <tr><td>trade_blocked</td><td>DOGE/USDT</td><td class="stacked-text">symbol_not_whitelisted</td><td><span class="badge badge-warning">警告</span></td><td>2026-05-06 19:35</td></tr>
+        </table>
+      </div>
+      <div class="section-card">
+        <div class="panel-header"><h2>复盘报告</h2></div>
+        <table>
+          <tr><th>周期</th><th>类型</th><th>内容</th><th>生成时间</th></tr>
+          <tr><td>2026-05-06</td><td>日报</td><td class="stacked-text">今日扫描 127 次，进入审核 18 次，执行 2 笔，胜率 100%，盈亏 +326.50 USDT</td><td>2026-05-06 23:59</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Config & Chat -->
+    <div class="grid two-col">
+      <div class="section-card">
+        <div class="panel-header"><h2>配置中心</h2><button class="button-secondary" style="padding:.45rem .9rem;font-size:.82rem">保存白名单</button></div>
+        <div class="config-grid">
+          <label>交易白名单 <input value="BTCUSDT, ETHUSDT, SOLUSDT, BNBUSDT"></label>
+          <label>LLM Base URL <input value="https://api.openai.com/v1" readonly></label>
+          <label>LLM 模型 <input value="gpt-4o" readonly></label>
+          <label>扫描间隔（秒）<input value="60" readonly></label>
+          <label>页面自动刷新（秒）<input type="number" value="15"></label>
+          <label>估值显示单位 <select><option>USDT</option><option>CNY</option></select></label>
+        </div>
+        <p class="field-help">填 0 表示关闭自动刷新；显示单位和汇率只影响当前浏览器页面，不影响策略、风控和 trader 的扫描周期。</p>
+      </div>
+
+      <div class="section-card">
+        <div class="panel-header"><h2>运营助手</h2></div>
+        <div class="chat">
+          <div class="chat-suggestions">
+            <span class="suggestion-chip">查看当前状态</span>
+            <span class="suggestion-chip">暂停交易</span>
+            <span class="suggestion-chip">生成日报</span>
+            <span class="suggestion-chip">同步账户</span>
+          </div>
+          <div class="chat-messages">
+            <div class="chat-bubble chat-user"><div class="chat-role">你</div>今天交易情况怎么样？</div>
+            <div class="chat-bubble chat-assistant"><div class="chat-role">助手</div>今天扫描了 127 次，18 次进入 GPT 审核，最终执行了 2 笔买入（BTC 和 ETH）。目前两笔都在盈利中，今日盈亏 +326.50 USDT，胜率 100%。SOL 的信号被风控拦截了，因为 GPT 建议缩小仓位且未通过交易所过滤器。</div>
+          </div>
+          <div class="chat-form">
+            <input placeholder="输入指令，如"暂停交易"" value="">
+            <button style="padding:.6rem 1.2rem">发送</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audit -->
+    <div class="section-card">
+      <div class="panel-header"><h2>审计日志</h2></div>
+      <table>
+        <tr><th>操作者</th><th>动作</th><th>修改前</th><th>修改后</th><th>时间</th></tr>
+        <tr><td>user</td><td>whitelist_update</td><td class="stacked-text">BTCUSDT, ETHUSDT</td><td class="stacked-text">BTCUSDT, ETHUSDT, SOLUSDT, BNBUSDT</td><td>2026-05-06 18:20</td></tr>
+        <tr><td>system</td><td>mode_switch</td><td class="stacked-text">testnet</td><td class="stacked-text">testnet</td><td>2026-05-06 18:00</td></tr>
+        <tr><td>user</td><td>start</td><td class="stacked-text">paused</td><td class="stacked-text">active</td><td>2026-05-06 18:00</td></tr>
+      </table>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

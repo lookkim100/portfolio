@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 落地应用作品集</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* ==========================================
+   青夜 Midnight Design System
+   ========================================== */
+:root{
+  /* Color Tokens */
+  --bg: #3B4A54;
+  --bg-card: #445560;
+  --bg-glass: rgba(59, 74, 84, 0.92);
+  --sidebar-bg: #34424B;
+  --accent: #C99AAF;
+  --accent-hover: #D8AFC0;
+  --accent-light: rgba(201, 154, 175, 0.11);
+  --accent-rgb: 201, 154, 175;
+  --text: #E1EAF0;
+  --text-light: #B7C5CE;
+  --text-muted: #A3B5C0;
+  --hana-text: #DCE6EC;
+  --border: rgba(170, 121, 141, 0.16);
+  --shadow: rgba(0, 0, 0, 0.36);
+  --green: #8CC790;
+  --coral: #EAB2A0;
+  --danger: #C77070;
+  --danger-rgb: 199, 112, 112;
+  --mood-bg: rgba(234, 178, 160, 0.08);
+  --mood-text: #EAB2A0;
+  --overlay-subtle: rgba(255, 255, 255, 0.03);
+  --overlay-light: rgba(255, 255, 255, 0.05);
+  --overlay-medium: rgba(255, 255, 255, 0.08);
+  --overlay-strong: rgba(255, 255, 255, 0.15);
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Typography */
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-serif: 'EB Garamond', 'Noto Serif SC', 'Source Han Serif SC', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Animation */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration: 0.3s;
+
+  /* Layout */
+  --max-w: 1600px;
+  --r: 10px;
+}
+
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+
+body{
+  font-family: var(--font-ui);
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  font-size: 16px;
+  line-height: 1.72;
+}
+
+::selection{background: rgba(var(--accent-rgb), 0.25)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:transparent;border-radius:2px;transition:background 0.25s ease-out}
+:hover::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:hover{background:rgba(128,128,128,0.3)}
+
+/* === TEXTURES & AMBIENT === */
+.noise{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px}
+.ambient{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.ambient .orb{position:absolute;border-radius:50%;filter:blur(100px);opacity:.35}
+.ambient .o1{width:600px;height:600px;top:-15%;left:-10%;background:radial-gradient(circle,rgba(201,154,175,.1),transparent 70%);animation:orb1 20s ease-in-out infinite}
+.ambient .o2{width:500px;height:500px;bottom:-20%;right:-8%;background:radial-gradient(circle,rgba(234,178,160,.08),transparent 70%);animation:orb2 25s ease-in-out infinite}
+.ambient .o3{width:400px;height:400px;top:40%;left:50%;background:radial-gradient(circle,rgba(140,199,144,.06),transparent 70%);animation:orb3 18s ease-in-out infinite}
+.ambient .o4{width:350px;height:350px;top:10%;right:20%;background:radial-gradient(circle,rgba(201,154,175,.06),transparent 70%);animation:orb4 22s ease-in-out infinite}
+.ambient .o5{width:450px;height:450px;bottom:30%;left:20%;background:radial-gradient(circle,rgba(234,178,160,.05),transparent 70%);animation:orb5 28s ease-in-out infinite}
+@keyframes orb1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(60px,40px) scale(1.1)}66%{transform:translate(-30px,-20px) scale(.9)}}
+@keyframes orb2{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-50px,-60px) scale(1.15)}66%{transform:translate(40px,30px) scale(.85)}}
+@keyframes orb3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-50px) scale(1.1)}}
+@keyframes orb4{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-30px,40px) scale(1.08)}}
+@keyframes orb5{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-40px,30px) scale(1.05)}66%{transform:translate(30px,-20px) scale(.95)}}
+
+/* === GLOBAL GRID PATTERN === */
+.grid-pattern{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.03;background-image:linear-gradient(rgba(201,154,175,.25) 1px,transparent 1px),linear-gradient(90deg,rgba(201,154,175,.25) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
+
+/* === MOUSE SPOTLIGHT === */
+.spotlight{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0;transition:opacity .6s ease;background:radial-gradient(600px circle at var(--x,50%) var(--y,50%),rgba(201,154,175,.055),transparent 40%);mix-blend-mode:screen}
+.spotlight.active{opacity:1}
+
+/* === PROGRESS BAR === */
+#progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--coral),var(--green));z-index:200;width:0%;transition:width .15s ease-out;box-shadow:0 0 12px rgba(var(--accent-rgb),.3),0 0 30px rgba(234,178,160,.15),0 0 60px rgba(140,199,144,.1)}
+#progress::after{content:'';position:absolute;right:0;top:-2px;width:40px;height:7px;background:linear-gradient(90deg,transparent,var(--accent));filter:blur(4px);opacity:.8}
+
+/* === NAV === */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 60px;height:56px;display:flex;align-items:center;justify-content:space-between;background:var(--bg-glass);backdrop-filter:blur(24px) saturate(1.2);border-bottom:1px solid var(--border);transform:translateY(-100%);transition:transform .4s var(--ease-out);box-shadow:0 4px 30px rgba(0,0,0,.15)}
+.nav.show{transform:translateY(0)}
+.nav.show .nav-brand{animation:nav-item-in .5s var(--ease-out) .1s both}
+.nav.show .nav-links a{opacity:0;animation:nav-item-in .4s var(--ease-out) both}
+.nav.show .nav-links a:nth-child(1){animation-delay:.15s}
+.nav.show .nav-links a:nth-child(2){animation-delay:.2s}
+.nav.show .nav-links a:nth-child(3){animation-delay:.25s}
+.nav.show .nav-links a:nth-child(4){animation-delay:.3s}
+.nav.show .nav-links a:nth-child(5){animation-delay:.35s}
+.nav.show .nav-links a:nth-child(6){animation-delay:.4s}
+@keyframes nav-item-in{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.nav-brand{font-size:18px;font-weight:600;letter-spacing:0.05em;font-family:var(--font-serif);color:var(--text);transition:all .3s var(--ease-out)}
+.nav-brand:hover{filter:drop-shadow(0 0 8px rgba(201,154,175,.2));transform:translateY(-1px)}
+.nav-brand span{color:var(--accent)}
+.nav-links{display:flex;gap:2px;flex-wrap:wrap}
+.nav-links a{padding:6px 14px;border-radius:var(--radius-sm);color:var(--text-muted);text-decoration:none;font-size:14px;font-weight:500;transition:all .3s var(--ease-out);position:relative;overflow:hidden}
+.nav-links a::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);transform:translateX(-100%);transition:none}
+.nav-links a:hover{color:var(--text-light);background:var(--overlay-light);transform:translateY(-1px)}
+.nav-links a:hover::before{transform:translateX(100%);transition:transform .6s var(--ease-out)}
+.nav-links a.active{color:var(--text);background:var(--accent-light)}
+.nav-links a.active::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--accent);border-radius:1px;box-shadow:0 0 8px rgba(201,154,175,.4)}
+
+/* === HERO === */
+.hero{min-height:90vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 60px 80px;position:relative;z-index:2}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;border-radius:100px;border:1px solid rgba(var(--accent-rgb),.2);background:var(--accent-light);font-size:14px;color:var(--accent);font-weight:500;margin-bottom:28px;backdrop-filter:blur(8px);font-family:var(--font-ui);opacity:0;animation:hero-fade-in 1s var(--ease-out) .2s forwards}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 2s ease infinite;box-shadow:0 0 8px rgba(140,199,144,.5)}
+@keyframes pulse-dot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(140,199,144,.5),0 0 8px rgba(140,199,144,.5)}50%{opacity:.7;box-shadow:0 0 0 8px rgba(140,199,144,0),0 0 12px rgba(140,199,144,.3)}}
+.hero h1{font-size:clamp(40px,5.8vw,72px);font-weight:600;letter-spacing:0.05em;line-height:1.15;margin-bottom:20px;background:linear-gradient(135deg,var(--text) 0%,var(--accent) 50%,var(--coral) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:300% 300%;animation:hero-grad 8s ease infinite;font-family:var(--font-serif);filter:drop-shadow(0 0 40px rgba(201,154,175,.15));opacity:0;animation:hero-title-in 1.2s var(--ease-out) .3s forwards,hero-grad 8s ease infinite 1.5s}
+@keyframes hero-title-in{from{opacity:0;transform:translateY(30px);filter:blur(10px) drop-shadow(0 0 40px rgba(201,154,175,0))}to{opacity:1;transform:translateY(0);filter:blur(0) drop-shadow(0 0 40px rgba(201,154,175,.15))}}
+@keyframes hero-grad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.hero p{font-size:clamp(16px,1.5vw,20px);color:var(--text-light);max-width:720px;line-height:1.9;font-weight:400;font-family:var(--font-serif);font-style:italic;opacity:0;animation:hero-fade-in 1.2s var(--ease-out) .6s forwards}
+@keyframes hero-fade-in{from{opacity:0;transform:translateY(20px);filter:blur(8px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+.hero-stats{display:flex;gap:56px;margin-top:56px;flex-wrap:wrap;justify-content:center;opacity:0;animation:hero-fade-in 1.2s var(--ease-out) .9s forwards}
+.hero-stats .stat{text-align:center;transition:transform .4s var(--ease-out)}
+.hero-stats .stat:hover{transform:translateY(-4px)}
+.hero-stats .n{font-size:44px;font-weight:700;letter-spacing:-.02em;background:linear-gradient(135deg,var(--accent),var(--coral));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:var(--font-serif);filter:drop-shadow(0 0 20px rgba(201,154,175,.12))}
+.hero-stats .l{font-size:13px;color:var(--text-muted);margin-top:6px;font-weight:500;letter-spacing:.03em;text-transform:uppercase;font-family:var(--font-ui)}
+.hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--text-muted);font-size:12px;animation:float-scroll 2s ease-in-out infinite;font-family:var(--font-ui);opacity:0;animation:hero-fade-in 1s var(--ease-out) 1.2s forwards,float-scroll 2s ease-in-out infinite 1.5s}
+.hero-scroll .arrow{width:20px;height:20px;border-right:1.5px solid var(--text-muted);border-bottom:1.5px solid var(--text-muted);transform:rotate(45deg);animation:arrow-pulse 2s ease-in-out infinite}
+@keyframes float-scroll{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+@keyframes arrow-pulse{0%,100%{opacity:.6}50%{opacity:1}}
+
+/* === SECTIONS === */
+.section{position:relative;z-index:2;max-width:var(--max-w);margin:0 auto;padding:120px 60px}
+.section-header{margin-bottom:40px;position:relative}
+.section-header::before{content:attr(data-num);position:absolute;top:-20px;left:-10px;font-size:120px;font-weight:700;color:var(--text);opacity:.015;font-family:var(--font-serif);line-height:1;pointer-events:none;user-select:none;z-index:-1}
+.section-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 18px;border-radius:100px;font-size:13px;font-weight:600;margin-bottom:14px;border:1px solid;letter-spacing:.04em;text-transform:uppercase;font-family:var(--font-ui);position:relative;overflow:hidden;transition:all .4s var(--ease-out)}
+.section-tag::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);transform:translateX(-100%);transition:none}
+.section-tag:hover::before{transform:translateX(100%);transition:transform .8s var(--ease-out)}
+.tag-accent{color:var(--accent);border-color:rgba(var(--accent-rgb),.3);background:var(--accent-light);box-shadow:0 0 20px rgba(201,154,175,.06)}
+.tag-green{color:var(--green);border-color:rgba(140,199,144,.3);background:rgba(140,199,144,.08);box-shadow:0 0 20px rgba(140,199,144,.05)}
+.tag-coral{color:var(--coral);border-color:rgba(234,178,160,.3);background:rgba(234,178,160,.08);box-shadow:0 0 20px rgba(234,178,160,.05)}
+.section h2{font-size:clamp(28px,3.4vw,44px);font-weight:600;margin-bottom:10px;letter-spacing:0.05em;line-height:1.2;font-family:var(--font-serif);color:var(--text)}
+.section .subtitle{color:var(--text-light);font-size:16px;font-weight:400;line-height:1.7;font-family:var(--font-serif);font-style:italic}
+.section-divider{height:1px;background:linear-gradient(90deg,transparent 0%,rgba(var(--accent-rgb),.15) 20%,rgba(234,178,160,.15) 50%,rgba(var(--accent-rgb),.15) 80%,transparent 100%);max-width:var(--max-w);margin:0 auto;position:relative;opacity:0;transform:scaleX(0);transition:opacity 1s var(--ease-out),transform 1s var(--ease-out);overflow:visible}
+.section-divider.visible{opacity:1;transform:scaleX(1)}
+.section-divider::after{content:'';position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:100px;height:10px;background:radial-gradient(ellipse,rgba(var(--accent-rgb),.35),transparent 70%);border-radius:50%;animation:pulse-glow 3s ease-in-out infinite}
+@keyframes pulse-glow{0%,100%{opacity:.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.2)}}
+
+/* === LAYOUT === */
+.h-split{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+.h-split-wide{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:start}
+.h-split-wide .img-panel{align-self:start}
+.img-panel{display:flex;flex-direction:column;gap:0}
+
+/* === LIGHTBOX === */
+.lightbox-overlay{display:none;position:fixed;inset:0;z-index:999;background:rgba(20,26,30,.45);backdrop-filter:blur(20px) saturate(1.2);justify-content:center;align-items:center;cursor:zoom-out;opacity:0;transition:opacity .4s var(--ease-out)}
+.lightbox-overlay.active{display:flex;opacity:1}
+.lightbox-overlay img{max-width:92vw;max-height:92vh;border-radius:var(--radius-md);box-shadow:0 32px 80px rgba(0,0,0,.4),0 0 0 1px rgba(201,154,175,.08);cursor:default;animation:lb-in .5s var(--ease-out)}
+@keyframes lb-in{from{transform:scale(.9) translateY(20px);opacity:0;filter:blur(8px)}to{transform:scale(1) translateY(0);opacity:1;filter:blur(0)}}
+.lightbox-close{position:absolute;top:24px;right:32px;font-size:40px;color:var(--text-muted);cursor:pointer;z-index:1000;line-height:1;transition:all .3s var(--ease-out);width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.lightbox-close:hover{color:var(--text);background:rgba(255,255,255,.05);transform:rotate(90deg)}
+.lightbox-caption{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:var(--text-muted);font-size:14px;pointer-events:none;font-family:var(--font-ui);opacity:0;animation:lb-caption-in .5s var(--ease-out) .2s forwards}
+@keyframes lb-caption-in{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* === ZOOMABLE MERMAID === */
+.mermaid-zoom-container{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;position:relative}
+.mermaid-zoom-container .zoom-hint{position:absolute;top:12px;right:12px;padding:5px 12px;border-radius:var(--radius-sm);background:var(--sidebar-bg);color:var(--text-muted);font-size:12px;pointer-events:none;z-index:2;font-family:var(--font-mono)}
+.mermaid-viewport{overflow:hidden;cursor:grab;padding:24px;height:480px}
+.mermaid-viewport:active{cursor:grabbing}
+.mermaid-viewport .mermaid-inner{transform-origin:0 0;transition:transform .12s ease-out}
+.mermaid-viewport .mermaid-inner svg{display:block;max-width:none}
+
+/* === IMG PANEL === */
+.img-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px;margin-bottom:20px;transition:all .4s var(--ease-out);position:relative;overflow:hidden}
+.img-card::before{content:'';position:absolute;inset:0;border-radius:var(--radius-md);background:linear-gradient(180deg,transparent 60%,rgba(201,154,175,.04) 100%);opacity:0;transition:opacity .4s;pointer-events:none;z-index:1}
+.img-card:hover{border-color:rgba(var(--accent-rgb),.22);box-shadow:0 12px 40px rgba(0,0,0,.4),0 0 0 1px rgba(201,154,175,.06);transform:translateY(-3px)}
+.img-card:hover::before{opacity:1}
+.img-card img{width:100%;border-radius:var(--radius-sm);border:1px solid var(--border);display:block;cursor:pointer;transition:transform .5s var(--ease-out),filter .5s,box-shadow .4s}
+.img-card:hover img{transform:scale(1.03);filter:brightness(1.08);box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.img-caption{font-size:13px;color:var(--text-muted);text-align:center;margin-top:10px;font-weight:500;font-family:var(--font-ui);transition:color .3s}
+.img-card:hover .img-caption{color:var(--accent)}
+
+/* === CARDS === */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:28px;transition:all .4s var(--ease-out);position:relative;transform-style:preserve-3d;perspective:1000px}
+.card::before{content:'';position:absolute;inset:-1px;border-radius:calc(var(--radius-md) + 1px);background:linear-gradient(135deg,rgba(var(--accent-rgb),.08),transparent 40%,transparent 60%,rgba(234,178,160,.06));z-index:-1;opacity:0;transition:opacity .5s}
+.card::after{content:'';position:absolute;inset:0;border-radius:var(--radius-md);background:linear-gradient(135deg,rgba(201,154,175,.03) 0%,transparent 50%,rgba(234,178,160,.025) 100%);opacity:0;transition:opacity .4s;pointer-events:none}
+.card .shimmer{position:absolute;inset:0;border-radius:var(--radius-md);overflow:hidden;pointer-events:none}
+.card .shimmer::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);transform:skewX(-25deg);transition:none}
+.card:hover{border-color:rgba(var(--accent-rgb),.18);transform:translateY(-3px) rotateX(1deg) rotateY(-1deg);box-shadow:0 16px 48px rgba(0,0,0,.4),0 0 0 1px rgba(201,154,175,.08)}
+.card:hover::before{opacity:1}
+.card:hover::after{opacity:1}
+.card:hover .shimmer::after{left:150%;transition:left 1s var(--ease-out)}
+.card-grid{display:grid;gap:20px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+.grid-4{grid-template-columns:repeat(4,1fr)}
+.grid-5{grid-template-columns:repeat(5,1fr)}
+
+/* === DATA CARDS === */
+.dcard{text-align:center;padding:24px 16px;position:relative;overflow:hidden;transition:all .4s var(--ease-out)}
+.dcard::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:40px;height:2px;border-radius:1px;opacity:.5;transition:all .4s var(--ease-out)}
+.dcard:hover::after{width:60px;opacity:.8}
+.dcard[data-glow="accent"]::after{background:var(--accent)}
+.dcard[data-glow="green"]::after{background:var(--green)}
+.dcard[data-glow="coral"]::after{background:var(--coral)}
+.dcard .val{font-size:38px;font-weight:700;margin-bottom:6px;letter-spacing:-.02em;font-family:var(--font-serif);transition:transform .4s var(--ease-out)}
+.dcard:hover .val{transform:scale(1.08)}
+.dcard .label{font-size:13px;color:var(--text-muted);font-weight:500;letter-spacing:.02em;font-family:var(--font-ui)}
+
+/* === INSIGHT === */
+.insight{display:flex;gap:14px;align-items:flex-start;padding:12px;border-radius:var(--radius-sm);transition:all .3s var(--ease-out);border:1px solid transparent}
+.insight:hover{background:var(--overlay-subtle);border-color:var(--border);transform:translateX(4px)}
+.insight .icon{flex-shrink:0;width:36px;height:36px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--accent-light);border:1px solid rgba(var(--accent-rgb),.1);color:var(--accent);transition:all .3s var(--ease-out)}
+.insight:hover .icon{background:rgba(201,154,175,.15);border-color:rgba(var(--accent-rgb),.2);transform:scale(1.08);box-shadow:0 0 16px rgba(201,154,175,.1)}
+.insight h4{font-size:15px;font-weight:600;margin-bottom:3px;font-family:var(--font-ui);color:var(--text)}
+.insight p{font-size:14px;color:var(--text-light);line-height:1.65;font-family:var(--font-serif)}
+
+/* === TABLE === */
+.table-wrap{overflow-x:auto;border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg-card);transition:all .4s var(--ease-out)}
+.table-wrap:hover{border-color:rgba(var(--accent-rgb),.1)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{background:var(--overlay-subtle);color:var(--accent);font-weight:600;text-align:left;padding:11px 14px;white-space:nowrap;border-bottom:1px solid var(--border);font-size:13px;letter-spacing:.02em;text-transform:uppercase;font-family:var(--font-ui)}
+td{padding:11px 14px;border-bottom:1px solid var(--border);color:var(--text-light);transition:background .2s;font-family:var(--font-ui)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--overlay-light);transition:background .25s ease}
+.mono{font-family:var(--font-mono);font-size:13px;color:var(--accent);font-weight:500}
+
+/* === CODE BLOCK === */
+.code-block{background:var(--sidebar-bg);border:1px solid var(--border);border-radius:var(--radius-md);padding:20px 24px;overflow-x:auto;font-family:var(--font-mono);font-size:14px;line-height:1.75;color:var(--hana-text);white-space:pre;position:relative;transition:all .4s var(--ease-out)}
+.code-block:hover{border-color:rgba(var(--accent-rgb),.12);box-shadow:0 8px 32px var(--shadow)}
+.code-block::before{content:'';position:absolute;top:12px;left:16px;width:8px;height:8px;border-radius:50%;background:var(--danger);box-shadow:16px 0 0 var(--coral),32px 0 0 var(--green)}
+.code-block .kw{color:var(--accent)}
+.code-block .fn{color:var(--coral)}
+.code-block .cm{color:var(--text-muted);font-style:italic}
+.code-block .str{color:var(--green)}
+.code-block .num{color:var(--coral)}
+
+/* === CHART BOX === */
+.chart-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;position:relative;transition:all .4s var(--ease-out)}
+.chart-box:hover{border-color:rgba(var(--accent-rgb),.12);box-shadow:0 8px 32px var(--shadow)}
+.chart-box canvas{max-height:380px}
+
+/* === FLOW STEPS === */
+.flow-steps{display:flex;align-items:center;gap:0;flex-wrap:wrap;justify-content:center;margin:20px 0}
+.flow-step{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 18px;text-align:center;min-width:130px;position:relative;transition:all .35s var(--ease-out);overflow:hidden}
+.flow-step::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,154,175,.04),transparent);opacity:0;transition:opacity .4s}
+.flow-step:hover{border-color:rgba(var(--accent-rgb),.22);box-shadow:0 4px 20px rgba(201,154,175,.08);transform:translateY(-2px)}
+.flow-step:hover::before{opacity:1}
+.flow-step .step-n{font-size:11px;color:var(--accent);font-weight:700;margin-bottom:4px;letter-spacing:.08em;text-transform:uppercase;font-family:var(--font-ui)}
+.flow-step .step-t{font-size:14px;font-weight:600;font-family:var(--font-ui)}
+.flow-arrow{color:var(--text-muted);font-size:18px;padding:0 6px}
+
+/* === BEFORE/AFTER === */
+.ba-container{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ba-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;transition:all .35s var(--ease-out);position:relative;overflow:hidden}
+.ba-box::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,154,175,.03),transparent);opacity:0;transition:opacity .4s}
+.ba-box:hover{border-color:rgba(var(--accent-rgb),.15);box-shadow:0 8px 32px var(--shadow);transform:translateY(-2px)}
+.ba-box:hover::before{opacity:1}
+.ba-box h4{margin-bottom:12px;display:flex;align-items:center;gap:8px;font-size:15px;font-family:var(--font-ui)}
+.ba-box .badge{display:inline-block;padding:3px 12px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.03em}
+.badge-before{background:rgba(var(--danger-rgb),.12);color:var(--danger)}
+.badge-after{background:rgba(140,199,144,.12);color:var(--green)}
+.ba-box ul{list-style:none;padding:0}
+.ba-box li{padding:7px 0;font-size:14px;color:var(--text-light);border-bottom:1px solid var(--border);font-family:var(--font-serif)}
+.ba-box li:last-child{border-bottom:none}
+.ba-box li::before{content:'→';color:var(--accent);margin-right:10px;font-weight:600}
+
+/* === ARCHITECTURE === */
+.arch{display:flex;flex-direction:column;gap:12px;max-width:700px;margin:0 auto}
+.arch-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.arch-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 20px;text-align:center;font-size:14px;font-weight:600;min-width:120px;transition:all .35s var(--ease-out);font-family:var(--font-ui);position:relative;overflow:hidden}
+.arch-box::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,154,175,.04),transparent);opacity:0;transition:opacity .4s}
+.arch-box:hover{border-color:rgba(var(--accent-rgb),.22);box-shadow:0 4px 20px rgba(201,154,175,.08);transform:translateY(-2px)}
+.arch-box:hover::before{opacity:1}
+.arch-box.primary{border-color:rgba(var(--accent-rgb),.2);background:var(--accent-light);color:var(--accent)}
+.arch-arrow{text-align:center;color:var(--text-muted);font-size:16px}
+
+/* === TECH TAGS === */
+.tech-tags{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+.tech-tag{padding:5px 14px;border-radius:100px;font-size:13px;border:1px solid var(--border);color:var(--text-light);background:var(--overlay-subtle);transition:all .35s var(--ease-out);font-weight:500;font-family:var(--font-ui);position:relative;overflow:hidden}
+.tech-tag::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);transform:translateX(-100%);transition:none}
+.tech-tag:hover{border-color:rgba(var(--accent-rgb),.25);color:var(--accent);background:var(--accent-light);transform:translateY(-2px);box-shadow:0 4px 16px rgba(201,154,175,.08)}
+.tech-tag:hover::before{transform:translateX(100%);transition:transform .7s var(--ease-out)}
+
+/* === DETAIL TEXT === */
+.detail-text{font-size:15px;color:var(--text-light);line-height:1.85;margin-bottom:20px;font-family:var(--font-serif)}
+.detail-text strong{color:var(--text);font-weight:600}
+
+/* === PROGRESS BARS === */
+.pbar-wrap{margin:14px 0}
+.pbar-label{display:flex;justify-content:space-between;font-size:14px;font-family:var(--font-ui)}
+.pbar-label span:last-child{color:var(--accent);font-weight:600}
+.pbar{height:6px;background:var(--overlay-subtle);border-radius:3px;overflow:hidden;position:relative}
+.pbar-fill{height:100%;border-radius:3px;transition:width 1.2s var(--ease-out);position:relative;box-shadow:0 0 12px rgba(201,154,175,.15)}
+.pbar-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:shimmer 2s ease infinite}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+/* === FOOTER === */
+.footer{position:relative;z-index:2;text-align:center;padding:100px 60px 120px;border-top:1px solid var(--border)}
+.footer h3{font-size:18px;font-weight:600;margin-bottom:24px;color:var(--text-light);letter-spacing:.02em;font-family:var(--font-serif);font-style:italic;opacity:0;transform:translateY(20px);transition:all .8s var(--ease-out)}
+.footer.visible h3{opacity:1;transform:translateY(0)}
+.footer .skills-cloud{opacity:0;transform:translateY(20px);transition:all .8s var(--ease-out) .2s}
+.footer.visible .skills-cloud{opacity:1;transform:translateY(0)}
+.skills-cloud{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:800px;margin:0 auto}
+.skill-chip{padding:7px 18px;border-radius:100px;font-size:14px;border:1px solid var(--border);color:var(--text-muted);transition:all .35s;font-weight:500;font-family:var(--font-ui)}
+.skill-chip:hover{border-color:rgba(var(--accent-rgb),.3);color:var(--accent);background:var(--accent-light);box-shadow:0 0 20px rgba(var(--accent-rgb),.08);transform:translateY(-2px)}
+
+/* === SCROLL REVEAL === */
+.reveal{opacity:0;transform:translateY(50px);filter:blur(6px);transition:opacity .9s var(--ease-out),transform .9s var(--ease-out),filter .9s var(--ease-out)}
+.reveal.visible{opacity:1;transform:translateY(0);filter:blur(0)}
+.reveal-child{opacity:0;transform:translateY(30px) scale(.97);filter:blur(4px);transition:opacity .6s var(--ease-out),transform .6s var(--ease-out),filter .6s var(--ease-out)}
+.reveal.visible .reveal-child{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+
+/* === MERMAID === */
+.mermaid-wrap{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:24px;overflow-x:auto;transition:all .4s var(--ease-out)}
+.mermaid-wrap:hover{border-color:rgba(var(--accent-rgb),.12)}
+.mermaid{display:flex;justify-content:center}
+
+/* === RESPONSIVE === */
+@media(max-width:1024px){
+  .h-split,.h-split-wide{grid-template-columns:1fr}
+  .grid-4{grid-template-columns:repeat(2,1fr)}
+  .grid-5{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .section{padding:80px 24px}
+  .hero{padding:100px 24px 60px}
+  .hero-stats{gap:24px}
+  .ba-container{grid-template-columns:1fr}
+  .spotlight{display:none}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .flow-steps{flex-direction:column}
+  .flow-arrow{transform:rotate(90deg)}
+  .hero-scroll{display:none}
+}
+
+/* === Focus === */
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* === Reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="ambient"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div><div class="orb o5"></div></div>
+<div class="noise"></div>
+<div class="grid-pattern"></div>
+<div id="progress"></div>
+<div class="lightbox-overlay" id="lightbox">
+  <span class="lightbox-close" id="lightbox-close">&times;</span>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
+
+<nav class="nav" id="nav">
+  <div class="nav-brand">Portfolio</div>
+  <div class="nav-links">
+    <a href="#p1" data-section="p1">Agent评测</a>
+    <a href="#p2" data-section="p2">数据采集</a>
+    <a href="#p3" data-section="p3">行业研究</a>
+    <a href="#p4" data-section="p4">流程管理</a>
+    <a href="#p5" data-section="p5">文档自动化</a>
+    <a href="#p6" data-section="p6">全栈开发</a>
+  </div>
+</nav>
+
+<!-- ====== HERO ====== -->
+<section class="hero">
+  <div class="hero-badge"><span class="dot"></span> Portfolio 2026</div>
+  <h1>AI 能力嵌入实际业务<br>流程的落地应用</h1>
+  <p>从数据采集到系统开发，6个项目覆盖AI评测、行业研究、流程管理、文档自动化与全栈开发。</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="n" data-count="6">0</div><div class="l">落地项目</div></div>
+    <div class="stat"><div class="n" data-count="16" data-suffix="x">0</div><div class="l">效率提升</div></div>
+    <div class="stat"><div class="n" data-count="100" data-suffix="+">0</div><div class="l">数据样本</div></div>
+    <div class="stat"><div class="n" data-count="1924">0</div><div class="l">行完整SOP</div></div>
+  </div>
+  <div class="hero-scroll"><span>SCROLL</span><div class="arrow"></div></div>
+</section>
+
+<!-- ====== ① AI Agent评测 ====== -->
+<div class="section-divider"></div>
+<section class="section reveal" id="p1">
+  <div class="section-header">
+    <span class="section-tag tag-accent">01 / Agent评测</span>
+    <h2>AI Agent 多平台评测与选型</h2>
+    <p class="subtitle">用21项指标量化对比6款AI Agent，输出选型决策依据</p>
+  </div>
+
+  <div class="card-grid grid-5" style="margin-bottom:28px">
+    <div class="card dcard reveal-child" data-glow="accent"><div class="val" style="color:var(--accent)">6</div><div class="label">评测Agent</div></div>
+    <div class="card dcard reveal-child" data-glow="coral"><div class="val" style="color:var(--coral)">21</div><div class="label">二级指标</div></div>
+    <div class="card dcard reveal-child" data-glow="green"><div class="val" style="color:var(--green)">8.07</div><div class="label">最高综合分</div></div>
+    <div class="card dcard reveal-child" data-glow="accent"><div class="val" style="color:var(--accent)">4</div><div class="label">评测维度</div></div>
+    <div class="card dcard reveal-child" data-glow="coral"><div class="val" style="color:var(--coral)">2026</div><div class="label">Q1执行</div></div>
+  </div>
+
+  <div class="detail-text reveal-child">
+    团队采购AI Agent工具，市面产品差异不透明。我设计了<strong>4维度×21指标</strong>的评测框架，对Codex、WorkBuddy、QwenPaw、OpenClaw、Hermes、Hanako 6款主流产品进行实测。评分采用1-10分制，加权计算综合分。权重分配：用户体验40% ＞ 任务完成率35% ＞ 场景适配性15% ＞ 响应速度10%。最终用数据替代了"感觉好用"的选型方式。
+  </div>
+
+  <div class="card-grid grid-3" style="margin-bottom:28px">
+    <div class="chart-box reveal-child"><canvas id="chart-bar"></canvas></div>
+    <div class="chart-box reveal-child"><canvas id="chart-radar"></canvas></div>
+    <div class="chart-box reveal-child"><canvas id="chart-donut"></canvas></div>
+  </div>
+
+  <div class="card reveal-child" style="margin-bottom:28px">
+    <h4 style="margin-bottom:12px;font-size:14px;font-family:var(--font-ui);color:var(--text)">UX子指标横向对比（11项）</h4>
+    <div class="table-wrap">
+      <table>
+        <tr><th>UX指标</th><th>Codex</th><th>WorkBuddy</th><th>QwenPaw</th><th>OpenClaw</th><th>Hermes</th><th>Hanako</th></tr>
+        <tr><td>安装配置复杂度</td><td>8</td><td style="color:var(--green);font-weight:700">9</td><td style="color:var(--green);font-weight:700">9</td><td>6</td><td>6</td><td style="color:var(--green);font-weight:700">9</td></tr>
+        <tr><td>交互界面</td><td>8</td><td>8</td><td style="color:var(--green);font-weight:700">9</td><td>6</td><td>5</td><td style="color:var(--green);font-weight:700">9</td></tr>
+        <tr><td>记忆机制</td><td>6</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td></tr>
+        <tr><td>模型配置</td><td>7</td><td style="color:var(--green);font-weight:700">9</td><td>8</td><td>8</td><td>8</td><td>8</td></tr>
+        <tr><td>IM接入</td><td>5</td><td>8</td><td style="color:var(--green);font-weight:700">9</td><td style="color:var(--green);font-weight:700">9</td><td style="color:var(--green);font-weight:700">9</td><td style="color:var(--green);font-weight:700">9</td></tr>
+        <tr><td>技能配置</td><td>7</td><td>8</td><td>7</td><td style="color:var(--green);font-weight:700">9</td><td>7</td><td>7</td></tr>
+        <tr><td>消耗控制</td><td>8</td><td style="color:var(--green);font-weight:700">9</td><td>8</td><td>7</td><td>7</td><td>8</td></tr>
+        <tr><td>错误信息清晰度</td><td style="color:var(--green);font-weight:700">9</td><td style="color:var(--green);font-weight:700">9</td><td>8</td><td>8</td><td>8</td><td>8</td></tr>
+        <tr><td>使用成本</td><td>6</td><td style="color:var(--green);font-weight:700">9</td><td>7</td><td>7</td><td>7</td><td>7</td></tr>
+        <tr><td>网络需求</td><td>7</td><td style="color:var(--green);font-weight:700">10</td><td style="color:var(--green);font-weight:700">9</td><td style="color:var(--green);font-weight:700">9</td><td style="color:var(--green);font-weight:700">9</td><td style="color:var(--green);font-weight:700">9</td></tr>
+        <tr><td>文档完整性</td><td style="color:var(--green);font-weight:700">9</td><td>8</td><td>8</td><td>8</td><td>8</td><td>8</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card-grid grid-2">
+    <div class="card reveal-child">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="insight"><div class="icon">&#128161;</div><div><h4>UX决定排名</h4><p>WorkBuddy任务能力（7.9）低于Codex（8.8），但用户体验（8.55）拉开差距，凭此反超排名第一。产品好用比能力强更能赢。</p></div></div>
+        <div class="insight"><div class="icon">&#128202;</div><div><h4>基础能力趋同</h4><p>6款Agent基础任务成功率都是满分。真正拉开差距的是复杂任务处理和体验层。</p></div></div>
+      </div>
+    </div>
+    <div class="card reveal-child">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="insight"><div class="icon">&#127472;&#127479;</div><div><h4>国产Agent体验领先</h4><p>WorkBuddy、QwenPaw、Hanako包揽综合排名前四中的三席，在使用成本和交互界面上优势明显。</p></div></div>
+        <div class="insight"><div class="icon">&#9888;&#65039;</div><div><h4>能力与易用性错配</h4><p>OpenClaw技能配置全场最高（9分），但交互界面和安装配置均6分，排名倒数第二。</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ② 原料信息抓取 ====== -->
+<div class="section-divider"></div>
+<section class="section reveal" id="p2">
+  <div class="section-header">
+    <span class="section-tag tag-coral">02 / 数据采集</span>
+    <h2>护肤、保健品原料信息抓取分析</h2>
+    <p class="subtitle">100种热销原料的电商数据抓取与结构化分析</p>
+  </div>
+
+  <div class="card-grid grid-5" style="margin-bottom:28px">
+    <div class="card dcard reveal-child" data-glow="coral"><div class="val" style="color:var(--coral)">100</div><div class="label">原料样本</div></div>
+    <div class="card dcard reveal-child" data-glow="accent"><div class="val" style="color:var(--accent)">12</div><div class="label">分析维度</div></div>
+    <div class="card dcard reveal-child" data-glow="green"><div class="val" style="color:var(--green)">2</div><div class="label">品类覆盖</div></div>
+    <div class="card dcard reveal-child" data-glow="coral"><div class="val" style="color:var(--coral)">16x</div><div class="label">效率提升</div></div>
+    <div class="card dcard reveal-child" data-glow="accent"><div class="val" style="color:var(--accent)">1亿+</div><div class="label">全品销售额</div></div>
+  </div>
+
+  <div class="h-split-wide">
+    <div>
+      <div class="detail-text reveal-child">
+        为化妆品ODM公司的产品经理和研发团队，自动化抓取<strong>国内外主流电商平台</strong>上护肤品和保健品两个品类各50种热销原料的数据。每种原料覆盖12个维度：排名、排名变化、名称、关联商品数、销量、销售额、销售额环比、原料功效、国内产品赛道、海外产品赛道、国内价格区间、海外价格区间。
+      </div>
+
+      <div class="card reveal-child" style="margin-bottom:20px">
+        <h4 style="margin-bottom:16px;font-size:14px;font-family:var(--font-ui);color:var(--text)">工作流</h4>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="step-n">STEP 1</div><div class="step-t">提示词设计</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px">定义12个采集维度</div></div>
+          <div class="flow-arrow">&#8594;</div>
+          <div class="flow-step"><div class="step-n">STEP 2</div><div class="step-t">Agent自动采集</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px">国内外电商平台抓取</div></div>
+          <div class="flow-arrow">&#8594;</div>
+          <div class="flow-step"><div class="step-n">STEP 3</div><div class="step-t">结构化输出</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px">Excel 2文件&#215;50行&#215;12列</div></div>
+        </div>
+        <div style="display:flex;justify-content:center;gap:32px;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+          <div style="text-align:center"><div style="font-size:24px;font-weight:700;color:var(--danger);font-family:var(--font-serif)">16小时</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">手动查询</div></div>
+          <div style="display:flex;align-items:center;color:var(--text-muted);font-size:20px">&#8594;</div>
+          <div style="text-align:center"><div style="font-size:24px;font-weight:700;color:var(--green);font-family:var(--font-serif)">1小时</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">Agent执行</div></div>
+        </div>
+      </div>
+
+      <div class="card reveal-child" style="margin-bottom:20px">
+        <h4 style="margin-bottom:12px;font-size:14px;font-family:var(--font-ui);color:var(--text)">数据亮点</h4>
+        <div class="pbar-wrap"><div class="pbar-label"><span>保健品原料销量100w+占比</span><span>72%</span></div><div class="pbar"><div class="pbar-fill" style="width:72%;background:var(--coral)"></div></div></div>
+        <div class="pbar-wrap"><div class="pbar-label"><span>护肤品原料销量100w+占比</span><span>92%</span></div><div class="pbar"><div class="pbar-fill" style="width:92%;background:var(--accent)"></div></div></div>
+        <div class="pbar-wrap"><div class="pbar-label"><span>最高销售额环比（膳食纤维）</span><span>77.38%</span></div><div class="pbar"><div class="pbar-fill" style="width:77%;background:var(--green)"></div></div></div>
+        <div class="pbar-wrap"><div class="pbar-label"><span>护肤品最高环比（依克多因）</span><span>62.14%</span></div><div class="pbar"><div class="pbar-fill" style="width:62%;background:var(--accent)"></div></div></div>
+      </div>
+
+      <div class="card-grid grid-2">
+        <div class="card reveal-child">
+          <h4 style="margin-bottom:10px;font-size:13px;color:var(--coral);font-family:var(--font-ui)">保健品 TOP 5</h4>
+          <table>
+            <tr><th>排名</th><th>名称</th><th>商品数</th><th>环比</th></tr>
+            <tr><td>1</td><td>钙</td><td>123</td><td style="color:var(--green)">+77.38%</td></tr>
+            <tr><td>2</td><td>益生菌</td><td>159</td><td style="color:var(--green)">+25.95%</td></tr>
+            <tr><td>5</td><td>烟酰胺</td><td>92</td><td style="color:var(--green)">+49.80%</td></tr>
+            <tr><td>7</td><td>益生元</td><td>121</td><td style="color:var(--green)">+39.26%</td></tr>
+            <tr><td>8</td><td>膳食纤维</td><td>60</td><td style="color:var(--green)">+73.20%</td></tr>
+          </table>
+        </div>
+        <div class="card reveal-child">
+          <h4 style="margin-bottom:10px;font-size:13px;color:var(--accent);font-family:var(--font-ui)">护肤品 TOP 5</h4>
+          <table>
+            <tr><th>排名</th><th>名称</th><th>商品数</th><th>环比</th></tr>
+            <tr><td>1</td><td>烟酰胺</td><td>239</td><td style="color:var(--green)">+14.12%</td></tr>
+            <tr><td>2</td><td>重组胶原蛋白</td><td>42</td><td style="color:var(--green)">+2.76%</td></tr>
+            <tr><td>5</td><td>维生素原B5</td><td>80</td><td style="color:var(--green)">+30.71%</td></tr>
+            <tr><td>6</td><td>依克多因</td><td>43</td><td style="color:var(--green)">+62.14%</td></tr>
+            <tr><td>9</td><td>玻色因</td><td>63</td><td style="color:var(--green)">+35.53%</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="img-panel">
+      <div class="img-card"><img src="作品集/2.护肤、保健品原料信息抓取分析/热门商品分析_保健品_Sheet1.png" alt="保健品原料分析Excel截图"><div class="img-caption">保健品原料分析 — Excel原始数据</div></div>
+      <div class="img-card"><img src="作品集/2.护肤、保健品原料信息抓取分析/热门商品分析_护肤品_Sheet1.png" alt="护肤品原料分析Excel截图"><div class="img-caption">护肤品原料分析 — Excel原始数据</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ③ ODM对比 ====== -->
+<div class="section-divider"></div>
+<section class="section reveal" id="p3">
+  <div class="section-header">
+    <span class="section-tag tag-green">03 / 行业研究</span>
+    <h2>化妆品ODM工厂与品牌产品开发周期对比</h2>
+    <p class="subtitle">10家ODM与品牌的护肤开发周期横向对比</p>
+  </div>
+
+  <div class="card-grid grid-5" style="margin-bottom:28px">
+    <div class="card dcard reveal-child" data-glow="green"><div class="val" style="color:var(--green)">10</div><div class="label">样本企业</div></div>
+    <div class="card dcard reveal-child" data-glow="coral"><div class="val" style="color:var(--coral)">24</div><div class="label">参考来源</div></div>
+    <div class="card dcard reveal-child" data-glow="accent"><div class="val" style="color:var(--accent)">6</div><div class="label">对比维度</div></div>
+    <div class="card dcard reveal-child" data-glow="coral"><div class="val" style="color:var(--coral)">4</div><div class="label">企业分组</div></div>
+    <div class="card dcard reveal-child" data-glow="accent"><div class="val" style="color:var(--accent)">22</div><div class="label">来源链接</div></div>
+  </div>
+
+  <div class="detail-text reveal-child">
+    聚焦护肤品ODM开发，对<strong>10家样本企业</strong>进行系统化对比：中国ODM（诺斯贝尔、芭薇股份、科丝美诗中国）、国际ODM（Intercos、Kolmar Labs、COSMAX Global）、中国品牌（珀莱雅、贝泰妮）、国际品牌（L'Or&#233;al、Shiseido）。覆盖开发模式、核心流程节点、官方明示周期、行业归纳周期、周期差异原因、适用场景、证据等级6个维度。参考来源涵盖官网、年报、招股书、官方采访、行业顾问文章。
+  </div>
+
+  <div class="card reveal-child" style="margin-bottom:28px">
+    <h4 style="margin-bottom:16px;font-size:15px;font-family:var(--font-ui);color:var(--text)">核心结论</h4>
+    <div class="card-grid grid-2">
+      <div class="insight"><div class="icon" style="background:rgba(140,199,144,.08);color:var(--green)">1</div><div><h4>流程趋同，差异在能力侧重</h4><p>中国与国际ODM的流程框架高度趋同；国际工厂强调全球供应链和趋势洞察，中国工厂强调柔性响应和备案落地速度。</p></div></div>
+      <div class="insight"><div class="icon" style="background:rgba(234,178,160,.08);color:var(--coral)">2</div><div><h4>开发周期拉出3个区间</h4><p>成熟配方2-6个月，全定制6-12个月，品牌自研9-18个月。资生堂快反案例可压到4个月。</p></div></div>
+      <div class="insight"><div class="icon" style="background:var(--accent-light);color:var(--accent)">3</div><div><h4>瓶颈不在单一研发</h4><p>包材与配方相容性、功效安全测试、特殊品类备案、跨部门并行不足是四大延期变量。Kolmar通过AI平台将包装lead time从6个月压缩到1个月以内。</p></div></div>
+      <div class="insight"><div class="icon" style="background:var(--overlay-light);color:var(--text-light)">4</div><div><h4>目标决定模式选择</h4><p>快速验证市场选成熟配方ODM；建立技术壁垒选品牌自研或深度共创型ODM。</p></div></div>
+    </div>
+  </div>
+
+  <div class="card reveal-child">
+    <h4 style="margin-bottom:12px;font-size:15px;font-family:var(--font-ui);color:var(--text)">10家企业对比摘要</h4>
+    <div class="table-wrap">
+      <table>
+        <tr><th>公司</th><th>类型</th><th>开发模式</th><th>官方明示周期</th><th>行业归纳周期</th><th>核心差异点</th></tr>
+        <tr><td>诺斯贝尔</td><td>中国ODM</td><td>私模+半定制+全定制</td><td>未公开</td><td>2-9个月</td><td>成熟配方快上新</td></tr>
+        <tr><td>芭薇股份</td><td>中国ODM</td><td>半定制+全定制</td><td>未公开</td><td>4-12个月</td><td>产品策划+检测一体化</td></tr>
+        <tr><td>科丝美诗中国</td><td>中国ODM</td><td>私模+半定制+全定制</td><td>未公开</td><td>3-9个月</td><td>防晒储备方案最快6个月</td></tr>
+        <tr><td>Intercos</td><td>国际ODM</td><td>半定制+全定制</td><td>未公开</td><td>6-9个月</td><td>11个全球研究中心</td></tr>
+        <tr><td>Kolmar Labs</td><td>国际ODM</td><td>半定制+全定制</td><td>包装6&#8594;1个月</td><td>6-12个月</td><td>AI包装平台降本提速</td></tr>
+        <tr><td>COSMAX</td><td>国际ODM</td><td>私模+半定制+全定制</td><td>未公开</td><td>6-12个月</td><td>韩/中/美/东南亚全球布局</td></tr>
+        <tr><td>珀莱雅</td><td>中国品牌</td><td>品牌自研</td><td>未公开</td><td>6-18个月</td><td>DMI/BD模式全链条打通</td></tr>
+        <tr><td>贝泰妮</td><td>中国品牌</td><td>品牌自研</td><td>未公开</td><td>9-18个月</td><td>皮肤学级研发+学术临床壁垒</td></tr>
+        <tr><td>L'Or&#233;al</td><td>国际品牌</td><td>品牌自研</td><td>未公开</td><td>12-18个月</td><td>多市场法规+全球上市节奏</td></tr>
+        <tr><td>Shiseido</td><td>国际品牌</td><td>品牌自研</td><td>常规约13个月</td><td>4-18个月</td><td>跨部门并行压缩周期</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ④ ODM流程体系 ====== -->
+<div class="section-divider"></div>
+<section class="section reveal" id="p4">
+  <div class="section-header">
+    <span class="section-tag tag-coral">04 / 流程管理</span>
+    <h2>化妆品ODM公司50人团队产品开发流程体系</h2>
+    <p class="subtitle">中小ODM从经验驱动到流程驱动的完整落地方案</p>
+  </div>
+
+  <div class="card-grid grid-5" style="margin-bottom:28px">
+    <div class="card dcard reveal-child" data-glow="coral"><div class="val" style="color:var(--coral)">1924</div><div class="label">文档行数</div></div>
+    <div class="card dcard reveal-child" data-glow="accent"><div class="val" style="color:var(--accent)">28</div><div class="label">章节</div></div>
+    <div class="card dcard reveal-child" data-glow="green"><div class="val" style="color:var(--green)">7</div><div class="label">流程图</div></div>
+    <div class="card dcard reveal-child" data-glow="coral"><div class="val" style="color:var(--coral)">18</div><div class="label">结构化模板</div></div>
+    <div class="card dcard reveal-child" data-glow="accent"><div class="val" style="color:var(--accent)">10</div><div class="label">参考企业</div></div>
+  </div>
+
+  <div>
+    <div class="detail-text reveal-child">
+        参考<strong>华为IPD、宝洁Stage-Gate、苹果产品定义</strong>等10家国内外企业方法论，提炼为适合50人ODM企业落地的轻量级流程。核心逻辑：轻量IPD + Stage-Gate阶段门 + 并行工程。覆盖从需求输入到量产交付的完整链路，包含15个必备SOP、25个表单、10个公司级KPI指标、30/60/90天落地路线图。
+      </div>
+
+      <div class="card reveal-child" style="margin-bottom:20px">
+        <h4 style="margin-bottom:16px;font-size:14px;font-family:var(--font-ui);color:var(--text)">7阶段门体系</h4>
+        <div class="table-wrap">
+          <table>
+            <tr><th>阶段</th><th>名称</th><th>关键交付物</th><th>评审门</th></tr>
+            <tr><td class="mono">S0</td><td>机会识别</td><td>客户需求表、机会评级（100分制）</td><td class="mono">G0</td></tr>
+            <tr><td class="mono">S1</td><td>立项可行性</td><td>立项书（12模块）、初步报价、风险清单</td><td class="mono">G1</td></tr>
+            <tr><td class="mono">S2</td><td>产品定义</td><td>PRD（14模块）、开发计划、目标成本</td><td class="mono">G2</td></tr>
+            <tr><td class="mono">S3</td><td>配方/包材开发</td><td>样品、配方记录、包材规格书、BOM</td><td class="mono">G3</td></tr>
+            <tr><td class="mono">S4</td><td>验证测试</td><td>稳定性/兼容性/功效/安全测试报告</td><td class="mono">G4</td></tr>
+            <tr><td class="mono">S5</td><td>试产转量产</td><td>试产报告、SOP、首件确认、放行标准</td><td class="mono">G5</td></tr>
+            <tr><td class="mono">S6</td><td>交付复盘</td><td>项目复盘表、客户反馈、5个知识库更新</td><td class="mono">G6</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card reveal-child" style="margin-bottom:20px">
+        <h4 style="margin-bottom:16px;font-size:14px;font-family:var(--font-ui);color:var(--text)">产品开发总流程图</h4>
+        <style>
+          .mermaid-viewport{overflow:hidden;cursor:grab;height:400px;padding:16px}
+          .mermaid-viewport:active{cursor:grabbing}
+          .mermaid-viewport .mermaid-inner{transform-origin:0 0;transition:none}
+          .mermaid-viewport .mermaid-inner svg{display:block;max-width:none}
+          .mermaid-zoom-container .zoom-hint{position:absolute;top:12px;right:12px;padding:5px 12px;border-radius:6px;background:#34424B;color:#A3B5C0;font-size:11px;pointer-events:none;z-index:2;font-family:JetBrains Mono,ui-monospace,monospace}
+        </style>
+        <div class="mermaid-zoom-container">
+          <div class="zoom-hint">滚轮缩放 · 拖动平移</div>
+          <div class="mermaid-viewport" id="flow-viewport">
+            <div class="mermaid-inner" id="flow-inner">
+              <svg viewBox="0 0 1100 2120" width="1100" height="2120" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <filter id="ds" x="-20%" y="-15%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.2"/>
+  </filter>
+  <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <path d="M0,.5 L7,3 L0,5.5" fill="none" stroke="#7a9aaa" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ag" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <path d="M0,.5 L7,3 L0,5.5" fill="none" stroke="#8CC790" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="ac" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <path d="M0,.5 L7,3 L0,5.5" fill="none" stroke="#EAB2A0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- Header -->
+<line x1="380" y1="6" x2="720" y2="6" stroke="#C99AAF" stroke-width=".8" opacity=".25"/>
+<text x="550" y="24" text-anchor="middle" font-family="'EB Garamond','Noto Serif SC',serif" font-size="9.5" fill="#A3B5C0" letter-spacing=".2em">PRODUCT DEVELOPMENT WORKFLOW</text>
+
+<!-- ══════ CONNECTIONS ══════ -->
+
+<!-- A→B -->
+<line x1="550" y1="77" x2="550" y2="128" stroke="#7a9aaa" stroke-width="1.2" marker-end="url(#a)"/>
+<!-- B→C -->
+<line x1="550" y1="172" x2="550" y2="225" stroke="#7a9aaa" stroke-width="1.2" marker-end="url(#a)"/>
+<!-- C→D (是) -->
+<line x1="550" y1="285" x2="550" y2="348" stroke="#8CC790" stroke-width="1.2" marker-end="url(#ag)"/>
+<!-- C→C1 (否) -->
+<line x1="665" y1="255" x2="765" y2="255" stroke="#EAB2A0" stroke-width="1.2" marker-end="url(#ac)"/>
+<!-- D→E -->
+<line x1="550" y1="392" x2="550" y2="455" stroke="#7a9aaa" stroke-width="1.2" marker-end="url(#a)"/>
+<!-- E→F (是) -->
+<line x1="550" y1="515" x2="550" y2="578" stroke="#8CC790" stroke-width="1.2" marker-end="url(#ag)"/>
+<!-- E→E1 (否) -->
+<line x1="665" y1="485" x2="765" y2="485" stroke="#EAB2A0" stroke-width="1.2" marker-end="url(#ac)"/>
+
+<!-- F → 分发横杆 → 并行任务 -->
+<line x1="550" y1="622" x2="550" y2="665" stroke="#7a9aaa" stroke-width="1.2"/>
+<line x1="190" y1="665" x2="810" y2="665" stroke="#7a9aaa" stroke-width="1" opacity=".7"/>
+<line x1="190" y1="665" x2="190" y2="710" stroke="#7a9aaa" stroke-width="1" marker-end="url(#a)"/>
+<line x1="390" y1="665" x2="390" y2="710" stroke="#7a9aaa" stroke-width="1" marker-end="url(#a)"/>
+<line x1="610" y1="665" x2="610" y2="710" stroke="#7a9aaa" stroke-width="1" marker-end="url(#a)"/>
+<line x1="810" y1="665" x2="810" y2="710" stroke="#7a9aaa" stroke-width="1" marker-end="url(#a)"/>
+
+<!-- 并行任务 → 汇聚横杆 → K -->
+<line x1="190" y1="750" x2="190" y2="785" stroke="#7a9aaa" stroke-width="1"/>
+<line x1="390" y1="750" x2="390" y2="785" stroke="#7a9aaa" stroke-width="1"/>
+<line x1="610" y1="750" x2="610" y2="785" stroke="#7a9aaa" stroke-width="1"/>
+<line x1="810" y1="750" x2="810" y2="785" stroke="#7a9aaa" stroke-width="1"/>
+<line x1="190" y1="785" x2="810" y2="785" stroke="#7a9aaa" stroke-width="1" opacity=".7"/>
+<line x1="550" y1="785" x2="550" y2="838" stroke="#7a9aaa" stroke-width="1.2" marker-end="url(#a)"/>
+
+<!-- K→L -->
+<line x1="550" y1="882" x2="550" y2="945" stroke="#7a9aaa" stroke-width="1.2" marker-end="url(#a)"/>
+<!-- L→M (是) -->
+<line x1="550" y1="1005" x2="550" y2="1078" stroke="#8CC790" stroke-width="1.2" marker-end="url(#ag)"/>
+<!-- L→L1 (否) -->
+<line x1="665" y1="975" x2="765" y2="975" stroke="#EAB2A0" stroke-width="1.2" marker-end="url(#ac)"/>
+<!-- M→N -->
+<line x1="550" y1="1122" x2="550" y2="1173" stroke="#7a9aaa" stroke-width="1.2" marker-end="url(#a)"/>
+<!-- N→O -->
+<line x1="550" y1="1217" x2="550" y2="1280" stroke="#7a9aaa" stroke-width="1.2" marker-end="url(#a)"/>
+<!-- O→P (是) -->
+<line x1="550" y1="1340" x2="550" y2="1413" stroke="#8CC790" stroke-width="1.2" marker-end="url(#ag)"/>
+<!-- O→O1 (否) -->
+<line x1="665" y1="1310" x2="765" y2="1310" stroke="#EAB2A0" stroke-width="1.2" marker-end="url(#ac)"/>
+<!-- P→Q -->
+<line x1="550" y1="1457" x2="550" y2="1508" stroke="#7a9aaa" stroke-width="1.2" marker-end="url(#a)"/>
+<!-- Q→R -->
+<line x1="550" y1="1552" x2="550" y2="1615" stroke="#7a9aaa" stroke-width="1.2" marker-end="url(#a)"/>
+<!-- R→S (是) -->
+<line x1="550" y1="1675" x2="550" y2="1748" stroke="#8CC790" stroke-width="1.2" marker-end="url(#ag)"/>
+<!-- R→R1 (否) -->
+<line x1="665" y1="1645" x2="765" y2="1645" stroke="#EAB2A0" stroke-width="1.2" marker-end="url(#ac)"/>
+<!-- S→T -->
+<line x1="550" y1="1792" x2="550" y2="1838" stroke="#7a9aaa" stroke-width="1.2" marker-end="url(#a)"/>
+<!-- T→U -->
+<line x1="550" y1="1882" x2="550" y2="1928" stroke="#7a9aaa" stroke-width="1.2" marker-end="url(#a)"/>
+<!-- U→V -->
+<line x1="550" y1="1972" x2="550" y2="2038" stroke="#7a9aaa" stroke-width="1.2" marker-end="url(#a)"/>
+
+<!-- 回退路径 -->
+<path d="M870,465 C870,415 740,375 670,370" fill="none" stroke="#EAB2A0" stroke-width="1.2" stroke-dasharray="6 4" marker-end="url(#ac)"/>
+<path d="M765,975 L55,975 L55,722 L105,722" fill="none" stroke="#EAB2A0" stroke-width="1.2" stroke-dasharray="6 4" stroke-linejoin="round" marker-end="url(#ac)"/>
+<path d="M765,1310 L30,1310 L30,738 L105,738" fill="none" stroke="#EAB2A0" stroke-width="1.2" stroke-dasharray="6 4" stroke-linejoin="round" marker-end="url(#ac)"/>
+<path d="M870,1625 C870,1535 720,1440 650,1435" fill="none" stroke="#EAB2A0" stroke-width="1.2" stroke-dasharray="6 4" marker-end="url(#ac)"/>
+
+<!-- ══════ LABELS ══════ -->
+<text x="508" y="300" text-anchor="end" font-family="'EB Garamond',serif" font-size="11" fill="#8CC790" font-style="italic">是</text>
+<text x="680" y="248" text-anchor="start" font-family="'EB Garamond',serif" font-size="11" fill="#EAB2A0" font-style="italic">否</text>
+<text x="508" y="530" text-anchor="end" font-family="'EB Garamond',serif" font-size="11" fill="#8CC790" font-style="italic">是</text>
+<text x="680" y="478" text-anchor="start" font-family="'EB Garamond',serif" font-size="11" fill="#EAB2A0" font-style="italic">否</text>
+<text x="508" y="1020" text-anchor="end" font-family="'EB Garamond',serif" font-size="11" fill="#8CC790" font-style="italic">是</text>
+<text x="680" y="968" text-anchor="start" font-family="'EB Garamond',serif" font-size="11" fill="#EAB2A0" font-style="italic">否</text>
+<text x="508" y="1355" text-anchor="end" font-family="'EB Garamond',serif" font-size="11" fill="#8CC790" font-style="italic">是</text>
+<text x="680" y="1303" text-anchor="start" font-family="'EB Garamond',serif" font-size="11" fill="#EAB2A0" font-style="italic">否</text>
+<text x="508" y="1690" text-anchor="end" font-family="'EB Garamond',serif" font-size="11" fill="#8CC790" font-style="italic">是</text>
+<text x="680" y="1638" text-anchor="start" font-family="'EB Garamond',serif" font-size="11" fill="#EAB2A0" font-style="italic">否</text>
+
+<text x="62" y="860" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="9" fill="#EAB2A0" opacity=".55" transform="rotate(-90,62,860)">→ 回到配方开发</text>
+<text x="37" y="1040" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="9" fill="#EAB2A0" opacity=".55" transform="rotate(-90,37,1040)">→ 回到配方开发</text>
+
+<!-- ══════ NODES ══════ -->
+
+<!-- A -->
+<g filter="url(#ds)">
+  <rect x="430" y="33" width="240" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.3)" stroke-width="1"/>
+  <text x="550" y="60" text-anchor="middle" font-family="'Noto Serif SC','EB Garamond',serif" font-size="14.5" fill="#E1EAF0" font-weight="600" letter-spacing=".04em">客户 / 市场机会输入</text>
+</g>
+<!-- B -->
+<g filter="url(#ds)">
+  <rect x="430" y="128" width="240" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.3)" stroke-width="1"/>
+  <text x="550" y="155" text-anchor="middle" font-family="'Noto Serif SC','EB Garamond',serif" font-size="14.5" fill="#E1EAF0" font-weight="600" letter-spacing=".04em">需求澄清与项目分级</text>
+</g>
+<!-- C · G0 -->
+<g filter="url(#ds)">
+  <polygon points="550,225 665,255 550,285 435,255" fill="#3E5060" stroke="#C99AAF" stroke-width="1.2"/>
+  <text x="550" y="251" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12" fill="#E1EAF0" font-weight="700">G0</text>
+  <text x="550" y="265" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="10.5" fill="#B7C5CE">是否进入立项?</text>
+</g>
+<!-- C1 -->
+<g filter="url(#ds)">
+  <rect x="770" y="235" width="210" height="40" rx="8" fill="#445560" stroke="rgba(234,178,160,.25)" stroke-width="1"/>
+  <text x="875" y="260" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="12" fill="#B7C5CE">归档到机会池 / 方案库</text>
+</g>
+<!-- D -->
+<g filter="url(#ds)">
+  <rect x="430" y="348" width="240" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.3)" stroke-width="1"/>
+  <text x="550" y="375" text-anchor="middle" font-family="'Noto Serif SC','EB Garamond',serif" font-size="14.5" fill="#E1EAF0" font-weight="600" letter-spacing=".04em">立项与可行性评审</text>
+</g>
+<!-- E · G1 -->
+<g filter="url(#ds)">
+  <polygon points="550,455 665,485 550,515 435,485" fill="#3E5060" stroke="#C99AAF" stroke-width="1.2"/>
+  <text x="550" y="481" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12" fill="#E1EAF0" font-weight="700">G1</text>
+  <text x="550" y="495" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="10.5" fill="#B7C5CE">方案可行?</text>
+</g>
+<!-- E1 -->
+<g filter="url(#ds)">
+  <rect x="770" y="465" width="210" height="40" rx="8" fill="#445560" stroke="rgba(234,178,160,.25)" stroke-width="1"/>
+  <text x="875" y="490" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="12" fill="#B7C5CE">调整需求 / 成本 / 交期 / 方案</text>
+</g>
+<!-- F -->
+<g filter="url(#ds)">
+  <rect x="430" y="578" width="240" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.3)" stroke-width="1"/>
+  <text x="550" y="605" text-anchor="middle" font-family="'Noto Serif SC','EB Garamond',serif" font-size="14.5" fill="#E1EAF0" font-weight="600" letter-spacing=".04em">产品定义与开发计划</text>
+</g>
+<!-- G -->
+<g filter="url(#ds)">
+  <rect x="105" y="710" width="170" height="40" rx="8" fill="#445560" stroke="rgba(201,154,175,.2)" stroke-width="1"/>
+  <text x="190" y="735" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="13" fill="#E1EAF0">配方开发</text>
+</g>
+<!-- H -->
+<g filter="url(#ds)">
+  <rect x="305" y="710" width="170" height="40" rx="8" fill="#445560" stroke="rgba(201,154,175,.2)" stroke-width="1"/>
+  <text x="390" y="735" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="13" fill="#E1EAF0">包材开发</text>
+</g>
+<!-- I -->
+<g filter="url(#ds)">
+  <rect x="515" y="710" width="190" height="40" rx="8" fill="#445560" stroke="rgba(201,154,175,.2)" stroke-width="1"/>
+  <text x="610" y="735" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="13" fill="#E1EAF0">法规与宣称路径</text>
+</g>
+<!-- J -->
+<g filter="url(#ds)">
+  <rect x="710" y="710" width="200" height="40" rx="8" fill="#445560" stroke="rgba(201,154,175,.2)" stroke-width="1"/>
+  <text x="810" y="735" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="13" fill="#E1EAF0">成本与供应链方案</text>
+</g>
+<!-- K -->
+<g filter="url(#ds)">
+  <rect x="420" y="838" width="260" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.3)" stroke-width="1"/>
+  <text x="550" y="865" text-anchor="middle" font-family="'Noto Serif SC','EB Garamond',serif" font-size="14.5" fill="#E1EAF0" font-weight="600" letter-spacing=".04em">样品评审与客户确认</text>
+</g>
+<!-- L · G2 -->
+<g filter="url(#ds)">
+  <polygon points="550,945 665,975 550,1005 435,975" fill="#3E5060" stroke="#C99AAF" stroke-width="1.2"/>
+  <text x="550" y="971" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12" fill="#E1EAF0" font-weight="700">G2</text>
+  <text x="550" y="985" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="10.5" fill="#B7C5CE">样品 / 方案确认?</text>
+</g>
+<!-- L1 -->
+<g filter="url(#ds)">
+  <rect x="770" y="955" width="210" height="40" rx="8" fill="#445560" stroke="rgba(234,178,160,.25)" stroke-width="1"/>
+  <text x="875" y="980" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="11.5" fill="#B7C5CE">迭代打样 / 调整包材 / 修正卖点</text>
+</g>
+<!-- M -->
+<g filter="url(#ds)">
+  <rect x="450" y="1078" width="200" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.3)" stroke-width="1"/>
+  <text x="550" y="1105" text-anchor="middle" font-family="'Noto Serif SC','EB Garamond',serif" font-size="14.5" fill="#E1EAF0" font-weight="600" letter-spacing=".04em">验证测试</text>
+</g>
+<!-- N -->
+<g filter="url(#ds)">
+  <rect x="370" y="1173" width="360" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.3)" stroke-width="1"/>
+  <text x="550" y="1197" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="12" fill="#E1EAF0" font-weight="600">稳定性 / 兼容性 / 微生物 / 功效 / 安全评估</text>
+</g>
+<!-- O · G3 -->
+<g filter="url(#ds)">
+  <polygon points="550,1280 665,1310 550,1340 435,1310" fill="#3E5060" stroke="#C99AAF" stroke-width="1.2"/>
+  <text x="550" y="1306" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12" fill="#E1EAF0" font-weight="700">G3</text>
+  <text x="550" y="1320" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="10.5" fill="#B7C5CE">验证通过?</text>
+</g>
+<!-- O1 -->
+<g filter="url(#ds)">
+  <rect x="770" y="1290" width="210" height="40" rx="8" fill="#445560" stroke="rgba(234,178,160,.25)" stroke-width="1"/>
+  <text x="875" y="1315" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="12" fill="#B7C5CE">偏差分析与 CAPA</text>
+</g>
+<!-- P -->
+<g filter="url(#ds)">
+  <rect x="450" y="1413" width="200" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.3)" stroke-width="1"/>
+  <text x="550" y="1440" text-anchor="middle" font-family="'Noto Serif SC','EB Garamond',serif" font-size="14.5" fill="#E1EAF0" font-weight="600" letter-spacing=".04em">试产准备</text>
+</g>
+<!-- Q -->
+<g filter="url(#ds)">
+  <rect x="420" y="1508" width="260" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.3)" stroke-width="1"/>
+  <text x="550" y="1535" text-anchor="middle" font-family="'Noto Serif SC','EB Garamond',serif" font-size="14.5" fill="#E1EAF0" font-weight="600" letter-spacing=".04em">试产 / 中试 / 首件确认</text>
+</g>
+<!-- R · G4 -->
+<g filter="url(#ds)">
+  <polygon points="550,1615 665,1645 550,1675 435,1645" fill="#3E5060" stroke="#C99AAF" stroke-width="1.2"/>
+  <text x="550" y="1641" text-anchor="middle" font-family="'EB Garamond',serif" font-size="12" fill="#E1EAF0" font-weight="700">G4</text>
+  <text x="550" y="1655" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="10.5" fill="#B7C5CE">可量产?</text>
+</g>
+<!-- R1 -->
+<g filter="url(#ds)">
+  <rect x="770" y="1625" width="210" height="40" rx="8" fill="#445560" stroke="rgba(234,178,160,.25)" stroke-width="1"/>
+  <text x="875" y="1650" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="11.5" fill="#B7C5CE">工艺 / 设备 / 包材 / 配方修正</text>
+</g>
+<!-- S -->
+<g filter="url(#ds)">
+  <rect x="430" y="1748" width="240" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.3)" stroke-width="1"/>
+  <text x="550" y="1775" text-anchor="middle" font-family="'Noto Serif SC','EB Garamond',serif" font-size="14.5" fill="#E1EAF0" font-weight="600" letter-spacing=".04em">量产与成品放行</text>
+</g>
+<!-- T -->
+<g filter="url(#ds)">
+  <rect x="450" y="1838" width="200" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.3)" stroke-width="1"/>
+  <text x="550" y="1865" text-anchor="middle" font-family="'Noto Serif SC','EB Garamond',serif" font-size="14.5" fill="#E1EAF0" font-weight="600" letter-spacing=".04em">交付上市</text>
+</g>
+<!-- U -->
+<g filter="url(#ds)">
+  <rect x="420" y="1928" width="260" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.3)" stroke-width="1"/>
+  <text x="550" y="1955" text-anchor="middle" font-family="'Noto Serif SC','EB Garamond',serif" font-size="14.5" fill="#E1EAF0" font-weight="600" letter-spacing=".04em">上市反馈与项目复盘</text>
+</g>
+<!-- V -->
+<g filter="url(#ds)">
+  <rect x="350" y="2038" width="400" height="44" rx="10" fill="#445560" stroke="rgba(201,154,175,.35)" stroke-width="1"/>
+  <text x="550" y="2065" text-anchor="middle" font-family="'Noto Serif SC',serif" font-size="13" fill="#E1EAF0" font-weight="600">沉淀到配方库 / 问题库 / 供应商评分 / 报价模型</text>
+</g>
+
+<!-- Footer -->
+<line x1="380" y1="2100" x2="720" y2="2100" stroke="#C99AAF" stroke-width=".8" opacity=".2"/>
+
+</svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="card reveal-child" style="margin-bottom:20px">
+        <h4 style="margin-bottom:12px;font-size:14px;font-family:var(--font-ui);color:var(--text)">关键模板示例</h4>
+        <div class="card-grid grid-2">
+          <div>
+            <h5 style="font-size:13px;color:var(--coral);margin-bottom:8px;font-weight:600;font-family:var(--font-ui)">客户需求表（19字段）</h5>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.8;font-family:var(--font-serif)">客户名称、品牌名称、联系人、产品品类、目标用户、参考产品、核心功效、目标质地、香型/颜色、规格容量、包材要求、目标价格、首单数量、目标上市时间、销售区域、需要测试、需要备案/注册、特殊要求、客户确认人</div>
+          </div>
+          <div>
+            <h5 style="font-size:13px;color:var(--accent);margin-bottom:8px;font-weight:600;font-family:var(--font-ui)">阶段门评审表（G0-G6）</h5>
+            <div style="font-size:12px;color:var(--text-muted);line-height:1.8;font-family:var(--font-serif)">每个阶段门包含：评审结论、未关闭问题、责任人、截止时间、是否允许进入下一阶段。7个评审门逐级把关，控制成本、周期、质量和合规风险。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal-child">
+        <h4 style="margin-bottom:12px;font-size:14px;font-family:var(--font-ui);color:var(--text)">10家参考企业方法论对标</h4>
+        <div class="table-wrap">
+          <table>
+            <tr><th>企业</th><th>可参考方法</th><th>转化做法</th></tr>
+            <tr><td>华为</td><td>IPD集成产品开发、跨部门评审</td><td>跨部门项目组；4级评审</td></tr>
+            <tr><td>小米</td><td>用户反馈、快速迭代、供应链协同</td><td>客户反馈池、竞品库、快反流程</td></tr>
+            <tr><td>比亚迪</td><td>研发制造一体化、质量门</td><td>中试/试产/量产设独立质量门</td></tr>
+            <tr><td>珀莱雅</td><td>功效护肤研发、消费者洞察</td><td>功效路线库、卖点库、测试证据库</td></tr>
+            <tr><td>华熙生物</td><td>原料技术平台、研发平台化</td><td>核心原料库、基础配方库</td></tr>
+            <tr><td>L'Or&#233;al</td><td>全球研发体系、安全评估</td><td>强化安全性、功效验证</td></tr>
+            <tr><td>雅诗兰黛</td><td>高端配方、感官体验控制</td><td>肤感/香型/包装体验评审</td></tr>
+            <tr><td>宝洁</td><td>Stage-Gate、新品商业化</td><td>概念&#8594;测试&#8594;评估&#8594;复盘闭环</td></tr>
+            <tr><td>Apple</td><td>产品定义、体验一致性</td><td>产品定义文档+关键体验指标</td></tr>
+            <tr><td>Google</td><td>设计冲刺、OKR、实验机制</td><td>小样快速验证；项目OKR</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card reveal-child" style="margin-top:28px;">
+    <h4 style="margin-bottom:16px;font-size:14px;font-family:var(--font-ui);color:var(--text)">流程体系可视化</h4>
+    <div class="img-panel" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div class="img-card" style="margin-bottom:0"><img src="作品集/4.化妆品ODM公司50人团队产品开发流程体系/1.png" alt="流程体系展示1"><div class="img-caption">产品开发总流程</div></div>
+      <div class="img-card" style="margin-bottom:0"><img src="作品集/4.化妆品ODM公司50人团队产品开发流程体系/2.png" alt="流程体系展示2"><div class="img-caption">阶段门与交付物</div></div>
+      <div class="img-card" style="margin-bottom:0"><img src="作品集/4.化妆品ODM公司50人团队产品开发流程体系/3.png" alt="流程体系展示3"><div class="img-caption">组织架构与角色</div></div>
+      <div class="img-card" style="margin-bottom:0"><img src="作品集/4.化妆品ODM公司50人团队产品开发流程体系/4.png" alt="流程体系展示4"><div class="img-caption">模板与表单设计</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ⑤ 数学试题转换 ====== -->
+<div class="section-divider"></div>
+<section class="section reveal" id="p5">
+  <div class="section-header">
+    <span class="section-tag tag-accent">05 / 文档自动化</span>
+    <h2>数学试题自动转换</h2>
+    <p class="subtitle">扫描试卷图片/PDF一键转标准Word模板</p>
+  </div>
+
+  <div class="card-grid grid-4" style="margin-bottom:28px">
+    <div class="card dcard reveal-child" data-glow="green"><div class="val" style="color:var(--green)">90%</div><div class="label">自动化率</div></div>
+    <div class="card dcard reveal-child" data-glow="coral"><div class="val" style="color:var(--coral)">5分钟</div><div class="label">单份处理</div></div>
+    <div class="card dcard reveal-child" data-glow="accent"><div class="val" style="color:var(--accent)">8x</div><div class="label">效率提升</div></div>
+    <div class="card dcard reveal-child" data-glow="coral"><div class="val" style="color:var(--coral)">10%</div><div class="label">人工微调</div></div>
+  </div>
+
+  <div class="h-split-wide">
+    <div>
+      <div class="detail-text reveal-child">
+        小学数学老师需要将从不同渠道收集的试卷统一为标准模板格式。原始试卷来源多样——扫描图片、PDF、其他学校流传的印刷件，格式参差不齐。使用<strong>WorkBuddy和Codex</strong>跑通一次示范流程后，封装为可复用Skill。输入文件路径后自动执行全流程。
+      </div>
+
+      <div class="card reveal-child" style="margin-bottom:20px">
+        <h4 style="margin-bottom:16px;font-size:14px;font-family:var(--font-ui);color:var(--text)">工作流</h4>
+        <div class="flow-steps">
+          <div class="flow-step"><div class="step-n">STEP 1</div><div class="step-t">输入获取</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px">扫描图片 / PDF</div></div>
+          <div class="flow-arrow">&#8594;</div>
+          <div class="flow-step"><div class="step-n">STEP 2</div><div class="step-t">AI识别</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px">OCR + 多模态模型</div></div>
+          <div class="flow-arrow">&#8594;</div>
+          <div class="flow-step"><div class="step-n">STEP 3</div><div class="step-t">结构化提取</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px">按题型拆分数据</div></div>
+          <div class="flow-arrow">&#8594;</div>
+          <div class="flow-step"><div class="step-n">STEP 4</div><div class="step-t">格式化输出</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px">标准Word模板</div></div>
+          <div class="flow-arrow">&#8594;</div>
+          <div class="flow-step"><div class="step-n">STEP 5</div><div class="step-t">人工微调</div><div style="font-size:11px;color:var(--text-muted);margin-top:4px">约10%校对</div></div>
+        </div>
+      </div>
+
+      <div class="ba-container reveal-child" style="margin-bottom:20px">
+        <div class="ba-box">
+          <h4><span class="badge badge-before">Before</span> 扫描试卷输入</h4>
+          <ul>
+            <li>珠海市香洲区第十二小学扫描件</li>
+            <li>2张PNG图片 + 1个PDF文件</li>
+            <li>手写/印刷混合，格式参差不齐</li>
+            <li>包含计算题、填空题、选择题、应用题</li>
+            <li>算式如 54&#215;5=、226&#215;0=、240+560=</li>
+            <li>手动录入一份试卷约40分钟</li>
+          </ul>
+        </div>
+        <div class="ba-box">
+          <h4><span class="badge badge-after">After</span> Word文档输出</h4>
+          <ul>
+            <li>完整保留学校标题行和学期信息</li>
+            <li>班级/姓名/等级填写栏格式统一</li>
+            <li>考试时间说明完整保留</li>
+            <li>题目内容无遗漏，分值标注准确</li>
+            <li>数学公式和算式正确排版</li>
+            <li>单份处理压缩到5分钟内</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card reveal-child">
+        <h4 style="margin-bottom:8px;font-size:14px;font-family:var(--font-ui);color:var(--text)">复用性与应用场景</h4>
+        <div class="card-grid grid-3" style="margin-top:12px">
+          <div style="text-align:center"><div style="font-size:18px;font-weight:700;color:var(--green);font-family:var(--font-serif)">Skill封装</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">跑通后封装为可复用Skill</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:700;color:var(--coral);font-family:var(--font-serif)">批量处理</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">优化后可连续处理多份</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:700;color:var(--accent);font-family:var(--font-serif)">40&#8594;5分钟</div><div style="font-size:12px;color:var(--text-muted);margin-top:4px">每份试卷整理时间</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="img-panel">
+      <div class="img-card"><img src="作品集/5.数学试题自动转换/输入题源.png" alt="输入：扫描试卷题源"><div class="img-caption">输入 — 扫描试卷题源（手写/印刷混合）</div></div>
+      <div class="img-card"><img src="作品集/5.数学试题自动转换/输出试卷.png" alt="输出：标准化Word试卷"><div class="img-caption">输出 — 格式统一的Word标准试卷</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ⑥ 虚拟货币交易员 ====== -->
+<div class="section-divider"></div>
+<section class="section reveal" id="p6">
+  <div class="section-header">
+    <span class="section-tag tag-green">06 / 全栈开发</span>
+    <h2>虚拟货币交易员</h2>
+    <p class="subtitle">AI审核 + 量化策略的Binance现货自动交易系统</p>
+  </div>
+
+  <div class="card-grid grid-5" style="margin-bottom:28px">
+    <div class="card dcard reveal-child" data-glow="coral"><div class="val" style="color:var(--coral)">11</div><div class="label">功能模块</div></div>
+    <div class="card dcard reveal-child" data-glow="accent"><div class="val" style="color:var(--accent)">13</div><div class="label">数据表</div></div>
+    <div class="card dcard reveal-child" data-glow="green"><div class="val" style="color:var(--green)">9</div><div class="label">风控规则</div></div>
+    <div class="card dcard reveal-child" data-glow="coral"><div class="val" style="color:var(--coral)">3</div><div class="label">选股因子</div></div>
+    <div class="card dcard reveal-child" data-glow="accent"><div class="val" style="color:var(--accent)">2:1</div><div class="label">盈亏比</div></div>
+  </div>
+
+  <div class="detail-text reveal-child">
+    独立开发的全栈交易系统，基于Binance现货交易。<strong>Trader主循环</strong>每N秒遍历白名单币种，依次经过行情数据&#8594;策略引擎&#8594;LLM审核脑&#8594;风控&#8594;订单执行&#8594;审计日志6个环节。前端为React/Vite后台，通过FastAPI暴露REST API。
+  </div>
+
+  <div class="card reveal-child" style="margin-bottom:28px">
+    <h4 style="margin-bottom:20px;font-size:15px;font-family:var(--font-ui);color:var(--text)">系统架构</h4>
+    <div class="arch">
+      <div class="arch-row"><div class="arch-box primary">React + Vite 前端</div></div>
+      <div class="arch-arrow">&#8597;</div>
+      <div class="arch-row"><div class="arch-box primary">FastAPI REST API</div></div>
+      <div class="arch-arrow">&#8597;</div>
+      <div class="arch-row">
+        <div class="arch-box">行情数据</div><div class="arch-box">策略引擎</div><div class="arch-box">LLM审核脑</div><div class="arch-box">风控模块</div><div class="arch-box">订单执行</div><div class="arch-box">审计日志</div>
+      </div>
+      <div class="arch-arrow">&#8597;</div>
+      <div class="arch-row">
+        <div class="arch-box">SQLite (13张表)</div><div class="arch-box">Binance REST API</div><div class="arch-box">OpenAI LLM API</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card reveal-child" style="margin-bottom:28px;padding:0;overflow:hidden">
+    <div style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+      <h4 style="font-size:14px;font-family:var(--font-ui);color:var(--text)">前端运营后台预览</h4>
+      <a href="作品集/6.虚拟货币交易员开发/web-mockup.html" target="_blank" style="font-size:12px;color:var(--accent);text-decoration:none;padding:5px 14px;border-radius:var(--radius-sm);border:1px solid rgba(var(--accent-rgb),.2);background:var(--accent-light);font-weight:500;transition:all .2s">新窗口打开 &#8599;</a>
+    </div>
+    <iframe src="作品集/6.虚拟货币交易员开发/web-mockup.html" style="width:100%;height:700px;border:none;display:block" loading="lazy"></iframe>
+  </div>
+
+  <div class="card-grid grid-2" style="margin-bottom:28px">
+    <div class="card reveal-child" style="padding:0;overflow:hidden">
+      <div style="padding:16px 24px;border-bottom:1px solid var(--border)"><h4 style="font-size:14px;font-family:var(--font-ui);color:var(--text)">策略引擎 — 三因子选股</h4></div>
+      <div class="code-block" style="padding-top:36px"><span class="cm"># strategy.py &#8212; StrategyService.evaluate()</span>
+<span class="cm"># 趋势 + 突破 + 量能，三条件同时满足才触发</span>
+
+<span class="kw">trend_up</span> = (
+    snapshot.last_price >= snapshot.sma_long
+    * (<span class="num">1</span> - <span class="kw">self</span>.settings.trend_price_tolerance)
+    <span class="kw">and</span> snapshot.sma_mid >= snapshot.sma_long
+    * (<span class="num">1</span> - <span class="kw">self</span>.settings.trend_ma_tolerance)
+)
+<span class="kw">breakout</span> = snapshot.last_price >= snapshot.breakout_high
+    * (<span class="num">1</span> - <span class="kw">self</span>.settings.breakout_tolerance)
+<span class="kw">volume_support</span> = snapshot.volume_ratio
+    >= <span class="kw">self</span>.settings.strategy_volume_ratio_min
+
+<span class="kw">if</span> trend_up <span class="kw">and</span> breakout <span class="kw">and</span> volume_support:
+    stop = <span class="fn">max</span>(price - atr * <span class="num">1.5</span>, price * <span class="num">0.97</span>)
+    target = price + (price - stop) * <span class="num">2</span></div>
+    </div>
+    <div class="card reveal-child" style="padding:0;overflow:hidden">
+      <div style="padding:16px 24px;border-bottom:1px solid var(--border)"><h4 style="font-size:14px;font-family:var(--font-ui);color:var(--text)">风控模块 — 9项规则逐条检查</h4></div>
+      <div class="code-block" style="padding-top:36px"><span class="cm"># risk.py &#8212; RiskService.check()</span>
+<span class="cm"># 任何一条不通过即拒绝交易</span>
+
+rejections: list[<span class="fn">str</span>] = []
+<span class="kw">if</span> symbol <span class="kw">not in</span> whitelist:
+    rejections.<span class="fn">append</span>(<span class="str">"symbol_not_whitelisted"</span>)
+<span class="kw">if</span> gpt_eval.decision == <span class="str">"veto"</span>:
+    rejections.<span class="fn">append</span>(<span class="str">"gpt_veto"</span>)
+<span class="kw">if</span> today_pnl <= -(equity * max_loss_frac):
+    rejections.<span class="fn">append</span>(<span class="str">"daily_loss_limit"</span>)
+<span class="kw">if</span> consecutive_losses >= cooldown:
+    rejections.<span class="fn">append</span>(<span class="str">"cooldown_active"</span>)
+<span class="cm"># ... 共9项检查</span>
+approved = <span class="kw">not</span> rejections <span class="kw">and</span> max_size > <span class="num">0</span></div>
+    </div>
+  </div>
+
+  <div class="card-grid grid-2">
+    <div class="card reveal-child">
+      <h4 style="margin-bottom:12px;font-size:15px;font-family:var(--font-ui);color:var(--text)">技术栈</h4>
+      <div class="tech-tags">
+        <span class="tech-tag">Python 3.12</span><span class="tech-tag">FastAPI</span><span class="tech-tag">SQLAlchemy 2.0</span><span class="tech-tag">Pydantic v2</span><span class="tech-tag">uvicorn</span><span class="tech-tag">APScheduler</span><span class="tech-tag">React 18</span><span class="tech-tag">Vite 5</span><span class="tech-tag">TypeScript</span><span class="tech-tag">SQLite</span><span class="tech-tag">Binance Spot API</span><span class="tech-tag">OpenAI-compatible LLM</span><span class="tech-tag">httpx</span><span class="tech-tag">pytest</span>
+      </div>
+    </div>
+    <div class="card reveal-child">
+      <h4 style="margin-bottom:12px;font-size:15px;font-family:var(--font-ui);color:var(--text)">功能模块（11个）</h4>
+      <div style="font-size:13px;color:var(--text-light);line-height:2.1;font-family:var(--font-serif)">
+        <div><span style="color:var(--accent);font-weight:600">行情数据服务</span> &#8212; 拉取K线，计算SMA/ATR/突破高点/量比</div>
+        <div><span style="color:var(--accent);font-weight:600">策略引擎</span> &#8212; 趋势+突破+量能三因子选股，输出止损止盈价</div>
+        <div><span style="color:var(--accent);font-weight:600">LLM审核脑</span> &#8212; GPT评估市场状态、信号质量，approve/veto决策</div>
+        <div><span style="color:var(--accent);font-weight:600">风控服务</span> &#8212; 9项规则逐条检查，按风险预算计算仓位</div>
+        <div><span style="color:var(--accent);font-weight:600">订单执行</span> &#8212; 市价单下单（真实+模拟），记录Order/Fill/Position</div>
+        <div><span style="color:var(--accent);font-weight:600">审计日志</span> &#8212; 交易笔记 + 日报生成</div>
+        <div><span style="color:var(--accent);font-weight:600">运营助手</span> &#8212; LLM意图分类，支持暂停/恢复/同步等安全命令</div>
+        <div><span style="color:var(--accent);font-weight:600">运行时管理</span> &#8212; RuntimeState持久化，账户权益同步</div>
+        <div><span style="color:var(--accent);font-weight:600">数据持久化</span> &#8212; K线、信号、持仓、订单等13张表</div>
+        <div><span style="color:var(--accent);font-weight:600">FastAPI后台</span> &#8212; REST API暴露运营接口</div>
+        <div><span style="color:var(--accent);font-weight:600">React前台</span> &#8212; Vite构建的可交互管理后台</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<div class="section-divider"></div>
+<footer class="footer">
+  <h3>能力标签</h3>
+  <div class="skills-cloud">
+    <span class="skill-chip">AI Agent 评测与选型</span><span class="skill-chip">数据采集与分析</span><span class="skill-chip">行业深度研究</span><span class="skill-chip">流程体系搭建</span><span class="skill-chip">文档自动化</span><span class="skill-chip">全栈开发</span><span class="skill-chip">Prompt Engineering</span><span class="skill-chip">知识库搭建</span><span class="skill-chip">Python / FastAPI</span><span class="skill-chip">React / TypeScript</span><span class="skill-chip">SQLAlchemy</span><span class="skill-chip">Excel 数据处理</span><span class="skill-chip">流程图设计</span><span class="skill-chip">跨部门协调</span><span class="skill-chip">项目管理</span>
+  </div>
+</footer>
+
+<!-- ====== SCRIPTS ====== -->
+<script>
+mermaid.initialize({startOnLoad:true,theme:'dark',themeVariables:{primaryColor:'#445560',primaryTextColor:'#E1EAF0',primaryBorderColor:'rgba(170,121,141,.2)',lineColor:'rgba(255,255,255,.1)',secondaryColor:'#34424B',tertiaryColor:'#3B4A54'}});
+
+// === Number counter animation ===
+function animateCounters(){
+  document.querySelectorAll('.n[data-count]').forEach(el=>{
+    if(el.dataset.animated) return;
+    const target=parseInt(el.dataset.count);
+    const suffix=el.dataset.suffix||'';
+    const duration=1200;
+    const start=performance.now();
+    el.dataset.animated='1';
+    function tick(now){
+      const p=Math.min((now-start)/duration,1);
+      const ease=1-Math.pow(1-p,3);
+      el.textContent=Math.round(target*ease)+suffix;
+      if(p<1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+// === Lightbox ===
+const lightbox=document.getElementById('lightbox');
+const lightboxImg=document.getElementById('lightbox-img');
+const lightboxCaption=document.getElementById('lightbox-caption');
+document.querySelectorAll('.img-card img').forEach(img=>{
+  img.addEventListener('click',()=>{
+    lightboxImg.src=img.src;
+    lightboxCaption.textContent=img.alt||'';
+    lightbox.classList.add('active');
+    document.body.style.overflow='hidden';
+  });
+});
+function closeLightbox(){lightbox.classList.remove('active');document.body.style.overflow=''}
+document.getElementById('lightbox-close').addEventListener('click',closeLightbox);
+lightbox.addEventListener('click',e=>{if(e.target===lightbox)closeLightbox()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+
+// === Zoomable mermaid ===
+(function retryFlow(){
+  const vp=document.getElementById('flow-viewport'),inn=document.getElementById('flow-inner');
+  if(!vp||!inn||!inn.querySelector('svg')) return setTimeout(retryFlow, 200);
+  let sc=.7,px=0,py=0,drag=false,sx=0,sy=0;
+  function apply(){inn.style.transform=`translate(${px}px,${py}px) scale(${sc})`}
+  apply();
+  vp.addEventListener('wheel',e=>{e.preventDefault();const d=e.deltaY>0?-.05:.05;const ns=Math.min(Math.max(sc+d,.3),2);const r=vp.getBoundingClientRect();const mx=e.clientX-r.left,my=e.clientY-r.top;px=mx-(mx-px)*(ns/sc);py=my-(my-py)*(ns/sc);sc=ns;apply()},{passive:false});
+  vp.addEventListener('mousedown',e=>{if(e.button)return;drag=true;sx=e.clientX-px;sy=e.clientY-py;vp.style.cursor='grabbing'});
+  document.addEventListener('mousemove',e=>{if(!drag)return;px=e.clientX-sx;py=e.clientY-sy;apply()});
+  document.addEventListener('mouseup',()=>{drag=false;vp.style.cursor='grab'});
+  let ltd=0;
+  vp.addEventListener('touchstart',e=>{if(e.touches.length===1){drag=true;sx=e.touches[0].clientX-px;sy=e.touches[0].clientY-py}if(e.touches.length===2){ltd=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY)}},{passive:true});
+  vp.addEventListener('touchmove',e=>{if(e.touches.length===1&&drag){px=e.touches[0].clientX-sx;py=e.touches[0].clientY-sy;apply()}if(e.touches.length===2){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);sc=Math.min(Math.max(sc+(d-ltd)*.003,.3),2);ltd=d;apply()}},{passive:true});
+  vp.addEventListener('touchend',()=>{drag=false});
+})();
+
+// === Scroll: progress, nav, active link ===
+const sections=document.querySelectorAll('.section[id]');
+const navLinks=document.querySelectorAll('.nav-links a[data-section]');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  document.getElementById('progress').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  document.getElementById('nav').classList.toggle('show',window.scrollY>300);
+  let current='';
+  sections.forEach(s=>{if(window.scrollY>=s.offsetTop-200)current=s.id});
+  navLinks.forEach(a=>{a.classList.toggle('active',a.dataset.section===current)});
+
+  const y=window.scrollY;
+  document.querySelectorAll('.ambient .orb').forEach((o,i)=>{
+    const speed=(i+1)*0.015;
+    o.style.transform=`translateY(${y*speed}px)`;
+  });
+});
+
+// === Scroll reveal with stagger ===
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    e.target.classList.add('visible');
+    const children=e.target.querySelectorAll('.reveal-child');
+    children.forEach((c,i)=>{c.style.transitionDelay=`${i*80}ms`});
+    if(e.target.classList.contains('hero')) animateCounters();
+    obs.unobserve(e.target);
+  });
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+setTimeout(animateCounters, 300);
+
+// === Section divider reveal ===
+const divObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');divObs.unobserve(e.target)}});
+},{threshold:0.5});
+document.querySelectorAll('.section-divider').forEach(el=>divObs.observe(el));
+
+// === Footer reveal ===
+const footerObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');footerObs.unobserve(e.target)}});
+},{threshold:0.2});
+const footerEl=document.querySelector('.footer');
+if(footerEl) footerObs.observe(footerEl);
+
+// === Mouse spotlight ===
+const spotlight=document.createElement('div');
+spotlight.className='spotlight active';
+document.body.appendChild(spotlight);
+let sx=window.innerWidth/2,sy=window.innerHeight/2,mx=sx,my=sy,rafId=null;
+function updateSpotlight(){
+  sx+=(mx-sx)*.08;sy+=(my-sy)*.08;
+  spotlight.style.setProperty('--x',sx+'px');
+  spotlight.style.setProperty('--y',sy+'px');
+  rafId=requestAnimationFrame(updateSpotlight);
+}
+window.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;if(!rafId)rafId=requestAnimationFrame(updateSpotlight)});
+updateSpotlight();
+
+// === Auto add shimmer to cards ===
+document.querySelectorAll('.card').forEach(card=>{if(!card.querySelector('.shimmer')){const s=document.createElement('div');s.className='shimmer';card.appendChild(s)}});
+
+// === Auto add section numbers ===
+document.querySelectorAll('.section').forEach((sec,i)=>{const header=sec.querySelector('.section-header');if(header){header.setAttribute('data-num',String(i+1).padStart(2,'0'))}});
+
+// === Chart: Bar ===
+new Chart(document.getElementById('chart-bar'),{
+  type:'bar',
+  data:{
+    labels:['WorkBuddy','Codex','QwenPaw','Hanako','OpenClaw','Hermes'],
+    datasets:[{label:'综合得分',data:[8.07,7.92,7.89,7.76,7.50,7.42],backgroundColor:['rgba(201,154,175,.65)','rgba(234,178,160,.65)','rgba(140,199,144,.65)','rgba(201,154,175,.55)','rgba(234,178,160,.55)','rgba(140,199,144,.55)'],borderRadius:6,borderSkipped:false}]
+  },
+  options:{
+    responsive:true,indexAxis:'y',
+    plugins:{title:{display:true,text:'综合排名',color:'#E1EAF0',font:{size:13,weight:'bold'}},legend:{display:false}},
+    scales:{x:{min:7,max:8.5,grid:{color:'rgba(255,255,255,.03)'},ticks:{color:'rgba(255,255,255,.35)'}},y:{grid:{display:false},ticks:{color:'rgba(255,255,255,.5)',font:{size:11}}}}
+  }
+});
+
+// === Chart: Radar ===
+new Chart(document.getElementById('chart-radar'),{
+  type:'radar',
+  data:{
+    labels:['响应速度','任务完成率','场景适配性','用户体验'],
+    datasets:[
+      {label:'WorkBuddy',data:[6.8,7.9,8.0,8.55],borderColor:'#C99AAF',backgroundColor:'rgba(201,154,175,.12)',pointBackgroundColor:'#C99AAF',borderWidth:2},
+      {label:'Codex',data:[7.4,8.8,8.5,7.05],borderColor:'#EAB2A0',backgroundColor:'rgba(234,178,160,.08)',pointBackgroundColor:'#EAB2A0',borderWidth:2},
+      {label:'QwenPaw',data:[8.0,7.9,7.5,8.0],borderColor:'#8CC790',backgroundColor:'rgba(140,199,144,.08)',pointBackgroundColor:'#8CC790',borderWidth:2},
+      {label:'OpenClaw',data:[7.0,7.9,6.5,7.65],borderColor:'#C77070',backgroundColor:'rgba(199,112,112,.06)',pointBackgroundColor:'#C77070',borderWidth:2},
+      {label:'Hermes',data:[7.8,7.9,6.5,7.25],borderColor:'#EAB2A0',backgroundColor:'rgba(234,178,160,.06)',pointBackgroundColor:'#EAB2A0',borderWidth:2},
+      {label:'Hanako',data:[7.8,7.9,6.75,8.0],borderColor:'#C99AAF',backgroundColor:'rgba(201,154,175,.06)',pointBackgroundColor:'#C99AAF',borderWidth:2}
+    ]
+  },
+  options:{
+    responsive:true,
+    plugins:{title:{display:true,text:'四维能力雷达图',color:'#E1EAF0',font:{size:13,weight:'bold'}},legend:{labels:{color:'rgba(255,255,255,.45)',font:{size:10.5}}}},
+    scales:{r:{min:5,max:10,ticks:{stepSize:1,color:'rgba(255,255,255,.2)',backdropColor:'transparent'},grid:{color:'rgba(255,255,255,.04)'},pointLabels:{color:'rgba(255,255,255,.5)',font:{size:11}}}}
+  }
+});
+
+// === Chart: Donut ===
+new Chart(document.getElementById('chart-donut'),{
+  type:'doughnut',
+  data:{
+    labels:['用户体验 40%','任务完成率 35%','场景适配性 15%','响应速度 10%'],
+    datasets:[{data:[40,35,15,10],backgroundColor:['#C99AAF','#EAB2A0','#8CC790','#C77070'],borderColor:'rgba(68,85,96,.8)',borderWidth:3}]
+  },
+  options:{
+    responsive:true,cutout:'62%',
+    plugins:{title:{display:true,text:'维度权重分布',color:'#E1EAF0',font:{size:13,weight:'bold'}},legend:{position:'bottom',labels:{color:'rgba(255,255,255,.45)',font:{size:10.5},padding:14}}}
+  }
+});
+</script>
+</body>
+</html>
